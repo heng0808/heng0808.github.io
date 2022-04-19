@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base  BitCodeLLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS知识点总结">
+<meta property="og:url" content="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base  BitCodeLLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/832018447CAF40A186C1FF6F105BE3DF/13346">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1e40616f541a8abeccb14c8b6927642f/12439">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE7943583de020982a6159fab6e3d17f16/12407">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE69b9fb0641a5531b0900d5e3fb6611cc/13050">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE05680e64fbe9e5d4606b9150506bed24/13081">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEed50cb184a3bd914979090f6048537d4/13342">
+<meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg">
+<meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/custominputsource.jpg">
+<meta property="og:image" content="https://image.fundebug.com/2019-03-21-01.png">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEc4d812ed27343d5f90304079d6e85799/13338">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1932c470363d16f0b4016d86825db93b/13339">
+<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEf2fd02cac003c369ba07e990d8548fdb/13344">
+<meta property="article:published_time" content="2022-04-19T18:15:40.000Z">
+<meta property="article:modified_time" content="2022-04-19T19:04:10.317Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/832018447CAF40A186C1FF6F105BE3DF/13346">
+
+<link rel="canonical" href="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>iOS知识点总结 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS知识点总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-20 02:15:40 / Modified: 03:04:10" itemprop="dateCreated datePublished" datetime="2022-04-20T02:15:40+08:00">2022-04-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="第0章-写在前面"><a href="#第0章-写在前面" class="headerlink" title="第0章 写在前面"></a>第0章 写在前面</h3><h4 id="最好下载并可编译以下源码"><a href="#最好下载并可编译以下源码" class="headerlink" title="最好下载并可编译以下源码"></a>最好下载并可编译以下源码</h4><ul>
+<li>libdispatch</li>
+<li>objc4</li>
+<li>gnustep-base</li>
+</ul>
+<h4 id="BitCode"><a href="#BitCode" class="headerlink" title="BitCode"></a>BitCode</h4><p>LLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是位于这两者直接的中间码. LLVM的编译工作原理是前端负责把项目程序源代码翻译成Bitcode中间码,然后再根据不同目标机器芯片平台转换为相应的汇编指令以及翻译为机器码.这样设计就可以让LLVM成为了一个编译器架构,可以轻而易举的在LLVM架构之上发明新的语言(前端),以及在LLVM架构下面支持新的CPU(后端)指令输出,虽然Bitcode仅仅只是一个中间码不能在任何平台上运行,但是它可以转化为任何被支持的CPU架构,包括现在还没被发明的CPU架构,也就是说现在打开Bitcode功能提交一个App到应用商店,以后如果苹果新出了一款手机并CPU也是全新设计的,在苹果后台服务器一样可以从这个App的Bitcode开始编译转化为新CPU上的可执行程序,可供新手机用户下载运行这个App.</p>
+<p>但是bitcode给开发者带来的不便之处就是: 没用bitcode之前,当应用程序奔溃后,开发者可以根据获取的的奔溃日志再配上上传到苹果服务器的二进制文件的调试符号表信息可以还原程序运行过程到奔溃时后调用栈信息,对问题进行定位排查.但是用了bitcode之后,用户安装的二进制不是开发者这边生成的,而是苹果服务器经过优化后生成的,其对应的调试符号信息丢失了,也就无法进行前面说的还原奔溃现场找原因了.</p>
+<h4 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h4><p><code>iOS</code> 编译采用 <code>Clang</code> 作为编译器前端，<code>LLVM</code> 作为编译器后端，编译器前端负责语法分析，语义分析，生成生成中间码 <code>(LLVM IR)</code>，在这个过程中，会进行类型检查，如果发现错误或者警告会标注出来在哪一行；编译器后端会进行机器无关的代码优化，生成机器语言，并且进行机器相关的代码优化。</p>
+<h5 id="Clang-的编译过程"><a href="#Clang-的编译过程" class="headerlink" title="Clang 的编译过程"></a>Clang 的编译过程</h5><ol>
+<li><p>预处理</p>
+</li>
+<li><p>词法分析</p>
+</li>
+<li><p>语法分析</p>
+</li>
+<li><p>静态分析</p>
+</li>
+<li><p>类型检查</p>
+</li>
+</ol>
+<h5 id="LLVM-的编译过程"><a href="#LLVM-的编译过程" class="headerlink" title="LLVM 的编译过程"></a>LLVM 的编译过程</h5><ol>
+<li><p>目标代码的生成与优化（语法树-&gt;中间码-&gt;汇编代码）</p>
+</li>
+<li><p>汇编（目标代码需要经过汇编器处理，把汇编语言文件转换为机器码文件）</p>
+</li>
+<li><p>链接，静态链接（动态链接运行时，多个程序用一个，运行时多个程序可以共享同一段代码）</p>
+</li>
+</ol>
+<h4 id="加载过程"><a href="#加载过程" class="headerlink" title="加载过程"></a>加载过程</h4><ol>
+<li>exe()</li>
+<li>加载可执行文件</li>
+<li>Dyld&amp;动态链接库加载</li>
+<li>Rebase&amp;Bind</li>
+<li>Objc</li>
+<li>initializer</li>
+</ol>
+<h4 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h4><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/832018447CAF40A186C1FF6F105BE3DF/13346" alt="image"></p>
+<h3 id="第3章-UI视图"><a href="#第3章-UI视图" class="headerlink" title="第3章 UI视图"></a>第3章 UI视图</h3><h4 id="事件传递（找到点击的View）"><a href="#事件传递（找到点击的View）" class="headerlink" title="事件传递（找到点击的View）"></a>事件传递（找到点击的View）</h4><p><code>hitTest:withEvent:</code></p>
+<p>UIApplication-&gt;UIWindow-&gt;UIViewController-&gt;UIView</p>
+<h4 id="事件响应（找到响应的View）"><a href="#事件响应（找到响应的View）" class="headerlink" title="事件响应（找到响应的View）"></a>事件响应（找到响应的View）</h4><p>UIView-&gt;UIViewController-&gt;UIWindow-&gt;UIApplication</p>
+<h4 id="异步绘制"><a href="#异步绘制" class="headerlink" title="异步绘制"></a>异步绘制</h4><pre class="mermaid">sequenceDiagram
+    Note over MainQueue: [UIView setNeedDisplay]
+    Note over MainQueue: [CALayer display]
+    Note over MainQueue: [UIView displayLayer:]
+    MainQueue->>AsyncQueue: 
+    Note over AsyncQueue: CoreGraphic Api
+    AsyncQueue->>MainQueue: 
+    Note over MainQueue: [CALayer setContents:]</pre>
+
+<h4 id="离屏渲染"><a href="#离屏渲染" class="headerlink" title="离屏渲染"></a>离屏渲染</h4><ul>
+<li><p>On-Screen Rendering</p>
+<p>  意为<strong>当前屏幕渲染</strong>，指的是GPU的缓冲操作是在当前屏幕缓冲区中进行</p>
+</li>
+<li><p>Off-Screen Rendering</p>
+<p>意为<strong>离屏渲染</strong>，指的是GPU在当前屏幕缓冲区以外<strong>新开辟</strong>一个缓冲区进行渲染操作</p>
+</li>
+</ul>
+<h5 id="何时触发"><a href="#何时触发" class="headerlink" title="何时触发"></a>何时触发</h5><ul>
+<li>圆角（maskToBounds为YES）</li>
+<li>图层蒙板</li>
+<li>阴影</li>
+<li>光栅化</li>
+</ul>
+<h5 id="为何要避免"><a href="#为何要避免" class="headerlink" title="为何要避免"></a>为何要避免</h5><ol>
+<li>增加GPU的工作量，有可能导致掉帧</li>
+<li>创建新的缓冲区</li>
+<li>上下文切换，多个渲染管线合成</li>
+</ol>
+<h3 id="第4章-Objective-C语言特性"><a href="#第4章-Objective-C语言特性" class="headerlink" title="第4章 Objective-C语言特性"></a>第4章 Objective-C语言特性</h3><pre class="mermaid">graph LR
+    A["Objective-C"] --- B(通知)
+    A --- C(KVO)
+    A --- D(KVC)
+    A --- E(属性关键字)
+    F(分类) --- A
+    G(关联对象) --- A
+    H(扩展) --- A
+    I(代理) --- A</pre>
+
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">category_t</span> &#123;</span><br><span class="line">    <span class="type">const</span> <span class="type">char</span> *name;</span><br><span class="line">    <span class="type">classref_t</span> cls;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">method_list_t</span> *instanceMethods;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">method_list_t</span> *classMethods;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">protocol_list_t</span> *protocols;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">property_list_t</span> *instanceProperties;</span><br><span class="line">    <span class="comment">// Fields below this point are not always present on disk.</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">property_list_t</span> *_classProperties;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">method_list_t</span> *<span class="title">methodsForMeta</span><span class="params">(<span class="type">bool</span> isMeta)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isMeta) <span class="keyword">return</span> classMethods;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> instanceMethods;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">property_list_t</span> *<span class="title">propertiesForMeta</span><span class="params">(<span class="type">bool</span> isMeta, <span class="keyword">struct</span> header_info *hi)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">protocol_list_t</span> *<span class="title">protocolsForMeta</span><span class="params">(<span class="type">bool</span> isMeta)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isMeta) <span class="keyword">return</span> <span class="literal">nullptr</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> protocols;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
+<li>声明私有方法</li>
+<li>分解体积庞大的类文件</li>
+<li>把Framework的私有方法公开</li>
+</ul>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>运行时决议</li>
+<li>可以为系统类添加分类</li>
+</ul>
+<h5 id="可添加的内容"><a href="#可添加的内容" class="headerlink" title="可添加的内容"></a>可添加的内容</h5><ul>
+<li>实例方法</li>
+<li>类方法</li>
+<li>协议</li>
+<li>属性（getter&amp;setter）</li>
+</ul>
+<h5 id="关联对象的本质"><a href="#关联对象的本质" class="headerlink" title="关联对象的本质"></a>关联对象的本质</h5><p>关联对象由<strong>AssociationsManager</strong>管理并在<strong>AssociationsHashMap</strong>存储，所有关联对象的关联内容在同一个全局容器中</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;0x1233232312&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@selector(text)&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello&quot;</span></span><br><span class="line">      <span class="attr">&quot;policy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;retain&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@selector(title)&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello&quot;</span></span><br><span class="line">      <span class="attr">&quot;policy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;retain&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;0x1233232312&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@selector(name)&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Hello&quot;</span></span><br><span class="line">      <span class="attr">&quot;policy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;retain&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>只声明不实现</p>
+<h5 id="作用-1"><a href="#作用-1" class="headerlink" title="作用"></a>作用</h5><ul>
+<li>声明私有属性</li>
+<li>声明私有方法</li>
+<li>声明私有成员变量</li>
+</ul>
+<h5 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>编译时决议</li>
+<li>只以声明的形式存在，多数情况下寄生于宿主类的.m中</li>
+<li>不能为系统类添加扩展</li>
+</ul>
+<h4 id="NSNotification"><a href="#NSNotification" class="headerlink" title="NSNotification"></a>NSNotification</h4><h4 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h4><ul>
+<li>Isa-swizzling</li>
+<li>kvc设置value能生效</li>
+<li>下划线修改value不能生效</li>
+</ul>
+<h4 id="KVC"><a href="#KVC" class="headerlink" title="KVC"></a>KVC</h4><div id="flowchart-0" class="flow-chart"></div>
+
+
+
+<h4 id="copy关键字"><a href="#copy关键字" class="headerlink" title="copy关键字"></a>copy关键字</h4><table>
+<thead>
+<tr>
+<th>源对象类型</th>
+<th>拷贝方式</th>
+<th>目标对象类型</th>
+<th>拷贝类型(深&#x2F;浅)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mutable对象</td>
+<td>copy</td>
+<td>不可变</td>
+<td>深拷贝</td>
+</tr>
+<tr>
+<td>mutable对象</td>
+<td>mutableCopy</td>
+<td>可变</td>
+<td>深拷贝</td>
+</tr>
+<tr>
+<td>immutable对象</td>
+<td>copy</td>
+<td>不可变</td>
+<td>浅拷贝</td>
+</tr>
+<tr>
+<td>immutable对象</td>
+<td>mutableCopy</td>
+<td>可变</td>
+<td>深拷贝</td>
+</tr>
+</tbody></table>
+<h3 id="第5章-Runtime"><a href="#第5章-Runtime" class="headerlink" title="第5章 Runtime"></a>第5章 Runtime</h3><pre class="mermaid">graph LR
+A1[Runtime]
+B1(数据结构) --- A1
+B2(类对象与元类对象) --- A1
+B3(消息传递) --- A1
+B4(方法缓) --- A1
+A1 --- C1(消息转发)
+A1 --- C2(Method-Swizzling)
+A1 --- C3(动态添加方法)
+A1 --- C4(动态方法解析)</pre>
+
+<h4 id="isa指针"><a href="#isa指针" class="headerlink" title="isa指针"></a>isa指针</h4><p>共同体isa_t</p>
+<pre class="mermaid">graph LR
+A1[指针型isa] --> B1(isa的值代表Class的地址)
+A2[非指针型isa] --> B2(isa的值的部分代表Class的地址)</pre>
+
+<h4 id="objc-class的结构"><a href="#objc-class的结构" class="headerlink" title="objc_class的结构"></a>objc_class的结构</h4><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1e40616f541a8abeccb14c8b6927642f/12439" alt="image"></p>
+<pre class="mermaid">graph LR
+A[objc_class]
+A --> isa
+A --> superclass
+A --> cache
+A --> class_data_bits_t</pre>
+
+<h4 id="isa指向"><a href="#isa指向" class="headerlink" title="isa指向"></a>isa指向</h4><ul>
+<li>关于对象，其指向类对象</li>
+<li>关于类对象，其指向元类对象</li>
+</ul>
+<pre class="mermaid">graph LR
+A[实例] -.isa.-> B[Class]
+B[Class] -.isa.-> C[MetaClass]</pre>
+
+<h4 id="cache-t"><a href="#cache-t" class="headerlink" title="cache_t"></a>cache_t</h4><ul>
+<li>用户快速查找方法执行函数</li>
+<li>是可增量扩展的<code>Hash表</code>结构</li>
+<li>是局部性原理的最佳应用</li>
+</ul>
+<pre class="mermaid">graph LR
+A[bucket_t] --> B[bucket_t]
+B --> C[bucket_t]
+C --> D[...]</pre>
+
+<pre class="mermaid">graph TB
+A[bucket_t] --> B[key]
+A --> C[IMP]</pre>
+
+<h4 id="class-data-bits-t"><a href="#class-data-bits-t" class="headerlink" title="class_data_bits_t"></a>class_data_bits_t</h4><ul>
+<li><code>class_data_bits_t</code>主要是对<code>class_rw_t</code>的封装</li>
+<li><code>class_rw_t</code>代表了类相关的<code>读写</code>信息、对<code>class_ro_t</code>的封装</li>
+<li><code>class_ro_t</code>代表了类相关的只读信息</li>
+<li><code>class_ro_t</code>编译后就决定了</li>
+<li><code>class_rw_t</code>运行时决定</li>
+</ul>
+<h4 id="method-t"><a href="#method-t" class="headerlink" title="method_t"></a>method_t</h4><pre class="mermaid">graph LR
+A[函数四要素] --- C[名称]
+A --- D[返回值]
+A --- E[参数]
+A --- F[函数体]
+C --- G[SEL name]
+D --- H[const char types]
+E --- H
+F --- I[IMP imp]
+G --- B[struct method_t]
+H --- B
+I --- B</pre>
+
+<h4 id="对象、类对象、元类对象"><a href="#对象、类对象、元类对象" class="headerlink" title="对象、类对象、元类对象"></a>对象、类对象、元类对象</h4><ul>
+<li><strong>类对象</strong>存储实例方法列表等信息</li>
+<li><strong>元类对象</strong>存储类方法列表等信息</li>
+</ul>
+<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE7943583de020982a6159fab6e3d17f16/12407" alt="image"></p>
+<h4 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct objc_super &#123;</span><br><span class="line">    /// Specifies an instance of a class.</span><br><span class="line">    __unsafe_unretained _Nonnull id receiver;</span><br><span class="line">    /// Specifies the particular superclass of the instance to message. </span><br><span class="line">    __unsafe_unretained _Nonnull Class super_class;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<div id="flowchart-1" class="flow-chart"></div>
+
+<h5 id="缓存查找"><a href="#缓存查找" class="headerlink" title="缓存查找"></a>缓存查找</h5><p>哈希查找</p>
+<p>给定值是<code>SEL</code>，目标值是对应的<code>bucket_t</code>中的<code>IMP</code></p>
+<pre class="mermaid">graph LR
+    A["cache_key_t"] --"f(key)"--> B["bucket_t"]</pre>
+
+<p>f(key) &#x3D; key &amp; mask</p>
+<h5 id="当前类中查找"><a href="#当前类中查找" class="headerlink" title="当前类中查找"></a>当前类中查找</h5><ul>
+<li>对于<code>已经排好</code>的列表，采用<code>二分查找</code></li>
+<li>对于<code>没有排序</code>的列表，采用<code>一般便利</code></li>
+</ul>
+<h5 id="父类逐级查找"><a href="#父类逐级查找" class="headerlink" title="父类逐级查找"></a>父类逐级查找</h5><div id="flowchart-2" class="flow-chart"></div>
+
+<h4 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h4><h5 id="实例的消息转发"><a href="#实例的消息转发" class="headerlink" title="实例的消息转发"></a>实例的消息转发</h5><div id="flowchart-3" class="flow-chart"></div>
+
+<h5 id="类的消息转发"><a href="#类的消息转发" class="headerlink" title="类的消息转发"></a>类的消息转发</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+ (BOOL)resolveClassMethod:(SEL)sel</span><br><span class="line">+ (id)forwardingTargetForSelector:(SEL)sel</span><br><span class="line">+ (NSMethodSignature *)methodSignatureForSelector:(SEL)sel</span><br><span class="line">+ (void)forwardInvocation:(NSInvocation *)invocation</span><br><span class="line">+ (void)doesNotRecognizeSelector:(SEL)sel</span><br></pre></td></tr></table></figure>
+
+<h4 id="动态方法解析"><a href="#动态方法解析" class="headerlink" title="动态方法解析"></a>动态方法解析</h4><p><code>@dynamic:</code>getter&amp;setter 运行时添加而不是编译时添加</p>
+<ul>
+<li>动态运行时语言将函数决议推迟到运行时</li>
+<li>编译时语言在编译期进行函数决议</li>
+</ul>
+<h3 id="第6章-内存管理"><a href="#第6章-内存管理" class="headerlink" title="第6章 内存管理"></a>第6章 内存管理</h3><pre class="mermaid">graph LR
+    A((内存管理)) --- B[引用计数]
+    A((内存管理)) --- C[弱引用]
+    A((内存管理)) --- D[自动释放池]
+    A((内存管理)) --- E[循环引用]
+    F[内存布局] --- A((内存管理))
+    G[内存管理方案] --- A((内存管理))
+    H[数据结构] --- A((内存管理)) 
+    I[ARC & MRC] --- A((内存管理))</pre>
+
+<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE69b9fb0641a5531b0900d5e3fb6611cc/13050" alt="image"></p>
+<h4 id="对象内存大小"><a href="#对象内存大小" class="headerlink" title="对象内存大小"></a>对象内存大小</h4><ul>
+<li>内存对齐：最大指针的整数倍</li>
+<li>iOS按16、32、48… 16的整数倍来取大小</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1、数据的开始在CPU读取的0字节处，这刚CPU一次就你能够读取完毕</span><br><span class="line">2、数据的开始没在0字节处，假设在1字节处吧，CPU要先将0~3字节读取出来，在读取4~7字节的内容。然后将0~3字节里的0字节丢弃，将4~7字节里的5，6，7字节的数据丢弃。然后组合1,2,3,4的数据。</span><br><span class="line">由此可以看出，CPU读取的效率不是很高，可以说比较繁琐。</span><br><span class="line">但如果有内存对齐的话：</span><br><span class="line">由于每一个数据都是对齐好的，CPU可以一次就能够将数据读取完成，虽然会有一些内存碎片，但从整个内存的大小来说，都不算什么，可以说是用空间换取时间的做法。</span><br></pre></td></tr></table></figure>
+
+<h4 id="内存管理方案"><a href="#内存管理方案" class="headerlink" title="内存管理方案"></a>内存管理方案</h4><h5 id="TaggedPointer-小对象"><a href="#TaggedPointer-小对象" class="headerlink" title="TaggedPointer(小对象)"></a>TaggedPointer(小对象)</h5><h5 id="NONPOINTER-ISA"><a href="#NONPOINTER-ISA" class="headerlink" title="NONPOINTER_ISA"></a>NONPOINTER_ISA</h5><ol>
+<li><strong>0</strong>位标记是否是纯ISA指针，还是非指针型的NONPINTER_ISA指针 <code>indexed</code></li>
+<li><strong>1</strong>位标记是否有关联对象 <code>has_assoc</code></li>
+<li><strong>2</strong>位标记是否使用C++相关内容，在ARC下也可以标记对象是否通过ARC来管理的 <code>has_cxx_dtar</code></li>
+<li><strong>3~35</strong>位标记当前类对象的指针地址</li>
+<li><strong>36</strong>位 <code>magic</code></li>
+<li><strong>37</strong>位标记对象是否有弱引用指针 <code>weakly_referenced</code></li>
+<li><strong>38</strong>位标记对象是否正在dealloc <code>deallocating</code></li>
+<li><strong>39</strong>位标记对象是否有SideTable结构用于存储引用计数 <code>has_sidetable_rc</code></li>
+<li><strong>40~63</strong>位标记对象的引用计数 extrac_rc</li>
+</ol>
+<h5 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h5><pre class="mermaid">graph BT
+    subgraph SideTables
+        A[SideTable2]
+        B[SideTable3]
+        C[SideTable1]
+    end
+    subgraph SideTable
+        D["spinlock_t自旋锁"] --> C
+        E["RefcountMap引用计数表"] --> C
+        F["weak_table_t弱引用表"] --> C
+    end</pre>
+
+<p>SideTables的本质是一张<code>Hash表</code></p>
+<pre class="mermaid">graph LR
+    subgraph SideTables
+                A["Key：对象指针Key"] --Hash函数--> B["Value：SideTable"]
+        end</pre>
+
+<h4 id="SideTable"><a href="#SideTable" class="headerlink" title="SideTable"></a>SideTable</h4><h5 id="spinlock-t"><a href="#spinlock-t" class="headerlink" title="spinlock_t"></a>spinlock_t</h5><ul>
+<li><code>spinlock_t</code>是”忙等”的锁（自旋锁）</li>
+<li>适用于轻量访问</li>
+</ul>
+<h5 id="RefcountMap"><a href="#RefcountMap" class="headerlink" title="RefcountMap"></a>RefcountMap</h5><pre class="mermaid">graph LR
+    subgraph RefcountMap
+        A["ptr"] --"DisguisedPtr(objc_object)"--> B["size_t"]
+    end</pre>
+
+<ol>
+<li>size_t <strong>0</strong> 位表示是否有弱引用 <code>weak_referenced</code></li>
+<li>size_t <strong>1</strong> 位表示是否正在 <code>deallocating</code></li>
+<li>size_t <strong>2~63</strong> 位表示引用计数 <code>retaincount</code></li>
+</ol>
+<h5 id="weak-table-t"><a href="#weak-table-t" class="headerlink" title="weak_table_t"></a>weak_table_t</h5><pre class="mermaid">graph LR
+    subgraph weak_table_t
+        A["Key：对象指针"] --Hash函数--> B["Value：weak_entry_t"]
+    end</pre>
+
+<p>weak_entry_t是结构体数组，存放了弱引用指针</p>
+<h4 id="MRC-amp-ARC"><a href="#MRC-amp-ARC" class="headerlink" title="MRC&amp;ARC"></a>MRC&amp;ARC</h4><ul>
+<li>MRC是通过一些方法手动操作引用计数</li>
+<li>ARC是LLVM（编译器）和Runtime（运行时）协作的结果</li>
+<li>ARC中禁止手动调用retain&#x2F;release&#x2F;retainCount&#x2F;dealloc</li>
+<li>ARC中新增了<code>weak</code>、<code>strong</code>属性关键字</li>
+</ul>
+<h5 id="引用计数管理"><a href="#引用计数管理" class="headerlink" title="引用计数管理"></a>引用计数管理</h5><h6 id="alloc"><a href="#alloc" class="headerlink" title="alloc"></a>alloc</h6><p>经过一系列调用，最终调用C函数calloc。此时并没有设置引用计数为1</p>
+<h6 id="strong"><a href="#strong" class="headerlink" title="strong"></a>strong</h6><ul>
+<li><p>如果是直接对普通对象<strong>strong</strong></p>
+<p>会直接调用<strong>retain</strong>方法<strong>objc_retain(id obj)</strong></p>
+</li>
+<li><p>如果是对<strong>weak</strong>对象调用<strong>strong</strong></p>
+<p>会调用*<em>objc_loadWeakRetained(id <em>location)</em></em></p>
+</li>
+<li><p>如果有<strong>arc</strong>下<strong>block</strong>有<strong>weak</strong>，然后<strong>strong</strong></p>
+<div id="flowchart-4" class="flow-chart"></div></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">objc_storeStrong</span><span class="params">(id *location, id obj)</span> </span>&#123;</span><br><span class="line">    id prev = *location;</span><br><span class="line">    <span class="keyword">if</span> (obj == prev) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">objc_retain</span>(obj);</span><br><span class="line">    *location = obj;</span><br><span class="line">    <span class="built_in">objc_release</span>(prev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="retain"><a href="#retain" class="headerlink" title="retain"></a>retain</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void</span><br><span class="line">SideTable &amp;table = SideTables()[this]</span><br><span class="line">size_t *refcntStorage = talbe.refcnts.find(this)</span><br><span class="line">refcntStorage += SIDE_TABLE_RC_ONE</span><br></pre></td></tr></table></figure>
+
+<h6 id="release"><a href="#release" class="headerlink" title="release"></a>release</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SideTable &amp;table = SideTables()[this]</span><br><span class="line">RefcountMap::interator it = talbe.refcnts.find(this)</span><br><span class="line">it-&gt;second -= SIDE_TABLE_RC_ONE </span><br></pre></td></tr></table></figure>
+
+<h6 id="retainCount"><a href="#retainCount" class="headerlink" title="retainCount"></a>retainCount</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SideTable &amp;table = SideTables()[this]</span><br><span class="line">size_t refcnt_result = 1</span><br><span class="line">RefcountMap::interator it = talbe.refcnts.find(this)</span><br><span class="line">refcnt_result += it-&gt;second &gt;&gt; SIDE_TABLE_RC_SHIFT</span><br></pre></td></tr></table></figure>
+
+<h6 id="dealloc"><a href="#dealloc" class="headerlink" title="dealloc"></a>dealloc</h6><div id="flowchart-5" class="flow-chart"></div>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">objc_object::rootDealloc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">isTaggedPointer</span>()) <span class="keyword">return</span>;  <span class="comment">// fixme necessary?</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">fastpath</span>(isa.nonpointer  &amp;&amp;  </span><br><span class="line">                 !isa.weakly_referenced  &amp;&amp;  </span><br><span class="line">                 !isa.has_assoc  &amp;&amp;  </span><br><span class="line">                 !isa.has_cxx_dtor  &amp;&amp;  </span><br><span class="line">                 !isa.has_sidetable_rc))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">assert</span>(!<span class="built_in">sidetable_present</span>());</span><br><span class="line">        <span class="built_in">free</span>(<span class="keyword">this</span>);</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">object_dispose</span>((id)<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> </span></span><br><span class="line"><span class="function"><span class="title">objc_object::clearDeallocating</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">slowpath</span>(!isa.nonpointer)) &#123;</span><br><span class="line">        <span class="comment">// Slow path for raw pointer isa.</span></span><br><span class="line">        <span class="built_in">sidetable_clearDeallocating</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">slowpath</span>(isa.weakly_referenced  ||  isa.has_sidetable_rc)) &#123;</span><br><span class="line">        <span class="comment">// Slow path for non-pointer isa with weak refs and/or side table data.</span></span><br><span class="line">        <span class="built_in">clearDeallocating_slow</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">assert</span>(!<span class="built_in">sidetable_present</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">NEVER_INLINE <span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">objc_object::clearDeallocating_slow</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">ASSERT</span>(isa.nonpointer  &amp;&amp;  (isa.weakly_referenced || isa.has_sidetable_rc));</span><br><span class="line"></span><br><span class="line">    SideTable&amp; table = <span class="built_in">SideTables</span>()[<span class="keyword">this</span>];</span><br><span class="line">    table.<span class="built_in">lock</span>();</span><br><span class="line">    <span class="keyword">if</span> (isa.weakly_referenced) &#123;</span><br><span class="line">        <span class="built_in">weak_clear_no_lock</span>(&amp;table.weak_table, (id)<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (isa.has_sidetable_rc) &#123;</span><br><span class="line">        table.refcnts.<span class="built_in">erase</span>(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    table.<span class="built_in">unlock</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="弱引用管理"><a href="#弱引用管理" class="headerlink" title="弱引用管理"></a>弱引用管理</h5><h6 id="添加weak变量"><a href="#添加weak变量" class="headerlink" title="添加weak变量"></a>添加weak变量</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id __weak obj1 = obj;</span><br><span class="line">////////////////////</span><br><span class="line">id obj1;</span><br><span class="line">objc_initWeak(&amp;objc1, obj)</span><br></pre></td></tr></table></figure>
+
+<pre class="mermaid">graph LR
+    A["objc_initWeak()"] --> B["storeWeak()"]
+    B --> C["weak_register_no_lock()"]</pre>
+
+<ol>
+<li>判断指针地址是否有关联<strong>旧对象</strong>，有关联对象记录关联旧对象的<strong>oldTable</strong></li>
+<li>判断是否传入对象是否存在，存在记录对象的<strong>newTable</strong></li>
+<li>删除就对象的weak引用<strong>weak_unregister_no_lock</strong></li>
+<li>关联指针和新对象<strong>weak_register_no_lock</strong></li>
+<li>判断是否是弱对象</li>
+<li>在<strong>newTable</strong>找到对应的<strong>weak_entry_t</strong>，没有直接创建，通过Hash运算<strong>weak_entry_for_referent()</strong></li>
+<li>weak_entry_t的长度好像是4</li>
+</ol>
+<h6 id="清除weak变量，同时设置指向为nil"><a href="#清除weak变量，同时设置指向为nil" class="headerlink" title="清除weak变量，同时设置指向为nil"></a>清除weak变量，同时设置指向为nil</h6><h4 id="自动释放池"><a href="#自动释放池" class="headerlink" title="自动释放池"></a>自动释放池</h4><ul>
+<li>自动释放池是一个双向链表</li>
+</ul>
+<pre class="mermaid">graph LR
+    A[PoolPage] --child--> B[PoolPage]
+    B[PoolPage] --parent--> A[PoolPage]
+    B[PoolPage] --child--> C[PoolPage]
+    C[PoolPage] --parent--> B[PoolPage]
+    C[PoolPage] --child--> D[PoolPage]
+    D[PoolPage] --parent--> C[PoolPage]</pre>
+
+<ul>
+<li><code>AutoreleasePoolPage</code>里有parent、child、thread、next指针，其中next代表栈当中下一个可填充的位置，自动释放池和线程一一对应</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class AutoreleasePoolPage &#123;</span><br><span class="line">    magic_t const magic;</span><br><span class="line">    id *next;</span><br><span class="line">    pthread_t const thread;</span><br><span class="line">    AutoreleasePoolPage * const parent;</span><br><span class="line">    AutoreleasePoolPage *child;</span><br><span class="line">    uint32_t const depth;</span><br><span class="line">    uint32_t hiwat;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE05680e64fbe9e5d4606b9150506bed24/13081" alt="image"></p>
+<ul>
+<li><code>objc_autoreleasePoolPush</code>会传入一个哨兵对象（POOL_SENTINEL），其值为nil</li>
+<li>在往Page里添加新元素时都会进行一下三种判断</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">static inline id *autoreleaseFast(id obj)</span><br><span class="line">&#123;</span><br><span class="line">   AutoreleasePoolPage *page = hotPage();</span><br><span class="line">   if (page &amp;&amp; !page-&gt;full()) &#123;</span><br><span class="line">       return page-&gt;add(obj);</span><br><span class="line">   &#125; else if (page) &#123;</span><br><span class="line">       return autoreleaseFullPage(obj, page);</span><br><span class="line">   &#125; else &#123;</span><br><span class="line">       return autoreleaseNoPage(obj);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>objc_autoreleasePoolPop</code>会将哨兵对象传入并且调用pageForPointer对哨兵地址4096取模，取到应该停止的page</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">static AutoreleasePoolPage *pageForPointer(const void *p) &#123;</span><br><span class="line">    return pageForPointer((uintptr_t)p);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static AutoreleasePoolPage *pageForPointer(uintptr_t p) &#123;</span><br><span class="line">    AutoreleasePoolPage *result;</span><br><span class="line">    uintptr_t offset = p % SIZE;</span><br><span class="line"></span><br><span class="line">    assert(offset &gt;= sizeof(AutoreleasePoolPage));</span><br><span class="line"></span><br><span class="line">    result = (AutoreleasePoolPage *)(p - offset);</span><br><span class="line">    result-&gt;fastcheck();</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>之后调用<code>releaseUntil</code>方法，判断当前page是否为空，将当前page的next指针前移，获取next的值为obj，并且擦出next指针上内容，如果obj没到page边界，那么发送objc_release，知道next指针指向哨兵地址</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">void releaseUntil(id *stop) &#123;</span><br><span class="line">    while (this-&gt;next != stop) &#123;</span><br><span class="line">        AutoreleasePoolPage *page = hotPage();</span><br><span class="line"></span><br><span class="line">        while (page-&gt;empty()) &#123;</span><br><span class="line">            page = page-&gt;parent;</span><br><span class="line">            setHotPage(page);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        page-&gt;unprotect();</span><br><span class="line">        id obj = *--page-&gt;next;</span><br><span class="line">        memset((void*)page-&gt;next, SCRIBBLE, sizeof(*page-&gt;next));</span><br><span class="line">        page-&gt;protect();</span><br><span class="line"></span><br><span class="line">        if (obj != POOL_SENTINEL) &#123;</span><br><span class="line">            objc_release(obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setHotPage(this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>判断当前page是否有child，如果有并且当前page不足一半，清除child，否则清除child的child</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">static inline void pop(void *token) &#123;</span><br><span class="line">    AutoreleasePoolPage *page = pageForPointer(token);</span><br><span class="line">    id *stop = (id *)token;</span><br><span class="line"></span><br><span class="line">    page-&gt;releaseUntil(stop);</span><br><span class="line"></span><br><span class="line">    if (page-&gt;child) &#123;</span><br><span class="line">        if (page-&gt;lessThanHalfFull()) &#123;</span><br><span class="line">            page-&gt;child-&gt;kill();</span><br><span class="line">        &#125; else if (page-&gt;child-&gt;child) &#123;</span><br><span class="line">            page-&gt;child-&gt;child-&gt;kill();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h4><h5 id="自循环引用，对象中obj持有了自己"><a href="#自循环引用，对象中obj持有了自己" class="headerlink" title="自循环引用，对象中obj持有了自己"></a>自循环引用，对象中obj持有了自己</h5><pre class="mermaid">graph TB
+A("id _strong obj") --> A</pre>
+
+<h5 id="相互循环引用"><a href="#相互循环引用" class="headerlink" title="相互循环引用"></a>相互循环引用</h5><pre class="mermaid">graph LR
+A("id _strong obj") --> B("id _strong obj")
+B --> A</pre>
+
+<h5 id="多循环引用"><a href="#多循环引用" class="headerlink" title="多循环引用"></a>多循环引用</h5><pre class="mermaid">graph LR
+A("A id _strong obj") --> B("B id _strong obj")
+B --> C("C id _strong obj")
+C --> D("D id _strong obj")
+D --> A</pre>
+
+<h5 id="NSTimer的循环引用问题"><a href="#NSTimer的循环引用问题" class="headerlink" title="NSTimer的循环引用问题"></a>NSTimer的循环引用问题</h5><p>设置一个中间对象，在中间对象执行定时任务时检查对象是否释放，释放了销毁定时器</p>
+<pre class="mermaid">graph LR
+    A[Runloop] -->B[NSTimer]
+    B --> C[中间对象]
+    C -.-> B
+    C -.-> D[对象]</pre>
+
+<h3 id="第7章-Block"><a href="#第7章-Block" class="headerlink" title="第7章 Block"></a>第7章 Block</h3><h4 id="什么是Block"><a href="#什么是Block" class="headerlink" title="什么是Block"></a>什么是Block</h4><ul>
+<li><strong>Block</strong>是将<strong>函数</strong>及其<strong>上下文</strong>封装起来的<strong>对象</strong></li>
+</ul>
+<h4 id="全局变量-amp-静态全局变量区别"><a href="#全局变量-amp-静态全局变量区别" class="headerlink" title="全局变量&amp;静态全局变量区别"></a>全局变量&amp;静态全局变量区别</h4><h4 id="截获变量"><a href="#截获变量" class="headerlink" title="截获变量"></a>截获变量</h4><ul>
+<li>对于<strong>基本数据</strong>类型的<strong>局部变量</strong>截获其值</li>
+<li>对于<strong>对象</strong>类型的局部变量<strong>连同所有权修饰符</strong>一起截获</li>
+<li>对于<strong>局部静态变量</strong>以<strong>指针形式</strong>截获</li>
+<li>对于<strong>全局变量、全局静态变量</strong>不截获</li>
+</ul>
+<h4 id="block修饰符"><a href="#block修饰符" class="headerlink" title="__block修饰符"></a>__block修饰符</h4><ul>
+<li><strong>一般情况下</strong>，对截获变量进行<strong>复制</strong>操作需要添加**__block修饰符**</li>
+</ul>
+<pre class="mermaid">graph LR
+        subgraph don't need
+                E[不需要__block修饰符] --> F[静态局部变量]
+                E --> G[全局变量]
+                E --> H[静态全局变量]
+        end
+    subgraph need
+                A[需要__block修饰符] --> B[局部变量]
+                B --> C[基本数据类型]
+                B --> D[对象类型]
+        end</pre>
+
+<ul>
+<li><strong>__block</strong>修饰的变量变成了<strong>对象</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">__block int value = 2;</span><br><span class="line">value = 4;</span><br><span class="line">// 编译成对象</span><br><span class="line">struct __Block_byref_value_0 &#123;</span><br><span class="line">  void *__isa; // isa指针</span><br><span class="line">__Block_byref_value_0 *__forwarding; // 栈上的指向自己</span><br><span class="line"> int __flags;</span><br><span class="line"> int __size;</span><br><span class="line"> int value; // 值</span><br><span class="line">&#125;;</span><br><span class="line">// 栈上的通过forwarding指针找自己改变值</span><br><span class="line">(value.__forwarding-&gt;value) = 4;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Block的内存管理"><a href="#Block的内存管理" class="headerlink" title="Block的内存管理"></a>Block的内存管理</h4><p>Block的Copy操作</p>
+<table>
+<thead>
+<tr>
+<th align="center">Block类型</th>
+<th align="center">源</th>
+<th align="center">Copy结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">__NSConcreteStackBlock</td>
+<td align="center">栈</td>
+<td align="center">堆</td>
+</tr>
+<tr>
+<td align="center">__NSConcreteGlobalBlock</td>
+<td align="center">数据区</td>
+<td align="center">什么也不做</td>
+</tr>
+<tr>
+<td align="center">__NSConcreteMallocBlock</td>
+<td align="center">堆</td>
+<td align="center">引用计数+1</td>
+</tr>
+</tbody></table>
+<p>栈Block copy后Block及其**__block<strong>修饰的变量都会在堆上复制一份，并且栈上</strong>__block<strong>中</strong>fowarding**指针指向堆__block，这样可以保证无论怎么操作访问的变量是同一个</p>
+<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEed50cb184a3bd914979090f6048537d4/13342" alt="image"></p>
+<h3 id="第8章-多线程"><a href="#第8章-多线程" class="headerlink" title="第8章 多线程"></a>第8章 多线程</h3><pre class="mermaid">graph LR
+    A(多线程) --> B[GCD]
+    A --> C[NSOperation]
+    A --> D[NSThread]
+    A --> E[多线程与锁]</pre>
+
+<h4 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h4><h5 id="同步-x2F-异步-和-串行-x2F-并发"><a href="#同步-x2F-异步-和-串行-x2F-并发" class="headerlink" title="同步&#x2F;异步 和 串行&#x2F;并发"></a>同步&#x2F;异步 和 串行&#x2F;并发</h5><h4 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h4><p>需要和NSOpertaionQueue配合使用来实现多线程方案，相比GCD有以下优势</p>
+<ul>
+<li>添加任务依赖</li>
+<li><strong>任务执行状态控制</strong></li>
+<li>最大并发量</li>
+</ul>
+<h5 id="任务执行状态"><a href="#任务执行状态" class="headerlink" title="任务执行状态"></a>任务执行状态</h5><ul>
+<li>isReady</li>
+<li>isExecuting</li>
+<li>isFinished</li>
+<li>isCancelled</li>
+</ul>
+<blockquote>
+<p> NSOperationQueueDefaultMaxConcurrentOperationCount<br>This number is determined dynamically based on current system conditions.</p>
+</blockquote>
+<h5 id="状态控制"><a href="#状态控制" class="headerlink" title="状态控制"></a>状态控制</h5><ul>
+<li>如果只重写了<strong>main</strong>方法，底层控制变更任务执行、完成以及退出状态</li>
+<li>如果重写了<strong>start</strong>方法，自行控制任务状态</li>
+</ul>
+<blockquote>
+<p>GNUstep叼叼叼</p>
+</blockquote>
+<h4 id="NSThread"><a href="#NSThread" class="headerlink" title="NSThread"></a>NSThread</h4><p>如何常住线程</p>
+<h4 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h4><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1505582">谈一谈 iOS 的锁</a></p>
+<ul>
+<li><p>pthread_mutex</p>
+<p>不是使用忙等，而是同信号量一样，会阻塞线程并进行等待，调用时进行线程上下文切换。</p>
+<p><code>pthread_mutex</code>本身拥有设置协议的功能，通过设置它的协议，来解决优先级反转</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5e66eea4f265da57375c5181">@synchronized（objc_sync_enter&#x2F;objc_sync_exit&#x2F;recursive_mutex_t递归锁&#x2F;SyncData）</a></p>
+<p>一般在创建单例对象的时候使用</p>
+<p>另外一种情况，就是 <code>@synchonized(self)</code>. 不少代码都是直接将self传入@synchronized当中，而 <code>self</code> 很容易作为一个外部对象，被调用和修改。所以它和上面是一样的情况，需要避免使用。<br>正确的做法是什么？obj 应当传入一个类内部维护的<code>NSObject</code>对象，而且这个对象是对外不可见的,不被随便修改的。@synchronized不能锁<strong>nil</strong>对象</p>
+</li>
+<li><p>atomic</p>
+<p>修饰属性的关键字，对被修饰对象进行原子操作（不负责使用）</p>
+</li>
+<li><p>OSSpinLock（spinlock_t自旋锁）</p>
+<p><strong>循环等待</strong>访问，不释放当前资源，用于轻量级数据访问，简单的int值+1&#x2F;-1操作</p>
+</li>
+<li><p>NSRecusiveLock（recursive_mutex_t递归锁）</p>
+</li>
+<li><p>NSLock</p>
+<p>堆pthread_mutex的封装的互斥锁</p>
+</li>
+<li><p>NSCondition</p>
+</li>
+<li><p>dispatch_semaphore_t</p>
+</li>
+</ul>
+<h4 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h4><h5 id="dispatch-semaphore-create"><a href="#dispatch-semaphore-create" class="headerlink" title="dispatch_semaphore_create"></a>dispatch_semaphore_create</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">struct dispatch_semaphore_s &#123;</span><br><span class="line">  void *do_ctxt; \</span><br><span class="line">  void *do_finalizer</span><br><span class="line">  long volatile dsema_value;</span><br><span class="line">  long dsema_orig;</span><br><span class="line">  _dispatch_sema4_t dsema_sema;</span><br><span class="line">  // DISPATCH_OBJECT_HEADER(semaphore);</span><br><span class="line">  struct _os_object_s _as_os_obj[0];</span><br><span class="line">  OS_OBJECT_STRUCT_HEADER(dispatch_##x);</span><br><span class="line">  struct dispatch_##x##_s *volatile do_next;</span><br><span class="line">  struct dispatch_queue_s *do_targetq;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">dispatch_semaphore_t</span><br><span class="line">dispatch_semaphore_create(long value)</span><br><span class="line">&#123;</span><br><span class="line">  dispatch_semaphore_t dsema;</span><br><span class="line"></span><br><span class="line">  // If the internal value is negative, then the absolute of the value is</span><br><span class="line">  // equal to the number of waiting threads. Therefore it is bogus to</span><br><span class="line">  // initialize the semaphore with a negative value.</span><br><span class="line">  if (value &lt; 0) &#123;</span><br><span class="line">  	return DISPATCH_BAD_INPUT;</span><br><span class="line">  &#125;</span><br><span class="line">  // 建立一个vtable。vtable是虚函数表，可以通过索引方式来快速获取方法。相比于OC的方法查找，vtable的方式会有极大的性能提升。</span><br><span class="line">  dsema = _dispatch_object_alloc(DISPATCH_VTABLE(semaphore),</span><br><span class="line">  sizeof(struct dispatch_semaphore_s));</span><br><span class="line">  dsema-&gt;do_next = DISPATCH_OBJECT_LISTLESS; // </span><br><span class="line">  dsema-&gt;do_targetq = _dispatch_get_default_queue(false); // 目标队列</span><br><span class="line">  dsema-&gt;dsema_value = value; // 当前值</span><br><span class="line">  _dispatch_sema4_init(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO); </span><br><span class="line">  dsema-&gt;dsema_orig = value; // 原始值</span><br><span class="line">  return dsema;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="dispatch-semaphore-wait"><a href="#dispatch-semaphore-wait" class="headerlink" title="dispatch_semaphore_wait"></a>dispatch_semaphore_wait</h5><div id="flowchart-6" class="flow-chart"></div>
+
+<h5 id="dispatch-semaphore-signal"><a href="#dispatch-semaphore-signal" class="headerlink" title="dispatch_semaphore_signal"></a>dispatch_semaphore_signal</h5><div id="flowchart-7" class="flow-chart"></div>
+
+<h5 id="dispatch-semaphore-dispose"><a href="#dispatch-semaphore-dispose" class="headerlink" title="_dispatch_semaphore_dispose"></a>_dispatch_semaphore_dispose</h5><div id="flowchart-8" class="flow-chart"></div>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dispatch_semaphore_t sema = dispatch_semaphore_create(1);</span><br><span class="line">dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);</span><br><span class="line">// 下面这个就会崩溃，因为赋值了新的信号量，而旧的在使用就被释放了</span><br><span class="line">sema = dispatch_semaphore_create(1);</span><br></pre></td></tr></table></figure>
+
+<h4 id="其它保证线程安全的方式"><a href="#其它保证线程安全的方式" class="headerlink" title="其它保证线程安全的方式"></a>其它保证线程安全的方式</h4><ul>
+<li><p>使用单线程访问</p>
+<p>首先，尽量避免多线程的设计。因为多线程访问会出现很多不可控制的情况。有些情况即使上锁，也无法保证百分之百的安全，例如自旋锁的问题。</p>
+</li>
+<li><p>不对资源做修改</p>
+</li>
+</ul>
+<h3 id="第9章-RunLoop"><a href="#第9章-RunLoop" class="headerlink" title="第9章 RunLoop"></a>第9章 RunLoop</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW1">RunLoop</a></p>
+<p>Runloop是通过内部维护的<strong>事件循环</strong>来对<strong>事件&amp;消息</strong>进行管理的一个对象。没有消息需要处理时，休眠以免资源占用；有消息处时，立刻被唤醒。</p>
+<blockquote>
+<p>Run loops are part of the fundamental infrastructure associated with threads. A <em>run loop</em> is an event processing loop that you use to schedule work and coordinate the receipt of incoming events. The purpose of a run loop is to keep your thread busy when there is work to do and put your thread to sleep when there is none.</p>
+</blockquote>
+<blockquote>
+<p>A run loop receives events from two different types of sources. <em>Input sources</em> deliver asynchronous events, usually messages from another thread or from a different application. <em>Timer sources</em> deliver synchronous events, occurring at a scheduled time or repeating interval. Both types of source use an application-specific handler routine to process the event when it arrives.</p>
+</blockquote>
+<p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg" alt="image"></p>
+<h4 id="Input-Sources"><a href="#Input-Sources" class="headerlink" title="Input Sources"></a>Input Sources</h4><p>source有两种，一种是基于端口的，一种是自定义的</p>
+<ul>
+<li>Port-based input sources monitor your application’s Mach ports.（asynchronous，异步的）</li>
+<li>Custom input sources monitor custom sources of events.（synchronous，同步的）</li>
+</ul>
+<blockquote>
+<p>Port-based sources are signaled automatically by the kernel, and custom sources must be signaled manually from another thread.</p>
+</blockquote>
+<ul>
+<li>Port-Based Sources（基于<strong>端口</strong>的事件源，由内核分发）</li>
+<li>Custom Input Sources（<strong>自定义</strong>的事件源，必须由另一个线程分发）</li>
+<li>Cocoa Perform Selector Sources（Cocoa<strong>自定义</strong>的执行选择器的事件源）<ol>
+<li>执行选择器的事件源会在选择器执行后自动删除</li>
+<li>在App执行到**applicationDidFinishLaunching:**方法，你就可以在主线程发出该事件</li>
+</ol>
+</li>
+</ul>
+<h4 id="Timer-Sources"><a href="#Timer-Sources" class="headerlink" title="Timer Sources"></a>Timer Sources</h4><h4 id="The-Run-Loop-Sequence-of-Events"><a href="#The-Run-Loop-Sequence-of-Events" class="headerlink" title="The Run Loop Sequence of Events"></a>The Run Loop Sequence of Events</h4><ol>
+<li>Notify observers that the run loop has been entered.</li>
+<li>Notify observers that any ready timers are about to fire.</li>
+<li>Notify observers that any input sources that are not port based are about to fire.</li>
+<li>Fire any non-port-based input sources that are ready to fire.</li>
+<li>If a port-based input source is ready and waiting to fire, process the event immediately. Go to step 9.</li>
+<li>Notify observers that the thread is about to sleep.</li>
+<li>Put the thread to sleep until one of the following events occurs:<ul>
+<li>An event arrives for a port-based input source.</li>
+<li>A timer fires.</li>
+<li>The timeout value set for the run loop expires.</li>
+<li>The run loop is explicitly woken up.</li>
+</ul>
+</li>
+<li>Notify observers that the thread just woke up.</li>
+<li>Process the pending event.<ul>
+<li>If a user-defined timer fired, process the timer event and restart the loop. Go to step 2.</li>
+<li>If an input source fired, deliver the event.</li>
+<li>If the run loop was explicitly woken up but has not yet timed out, restart the loop. Go to step 2.</li>
+</ul>
+</li>
+<li>Notify observers that the run loop has exited.</li>
+</ol>
+<h4 id="When-Would-You-Use-a-Run-Loop"><a href="#When-Would-You-Use-a-Run-Loop" class="headerlink" title="When Would You Use a Run Loop?"></a>When Would You Use a Run Loop?</h4><p>只有在第二线程的时候才需<strong>Runloop</strong></p>
+<blockquote>
+<p>The only time you need to run a run loop explicitly is when you create secondary threads for your application.</p>
+</blockquote>
+<p>对于第二线程推荐以下情况使用<strong>Runloop</strong></p>
+<ul>
+<li>Use ports or custom input sources to communicates with other thread</li>
+<li>User timer on the thread</li>
+<li>Use any of the performSelector… method</li>
+<li>Keep the thread around to perfom periodic task</li>
+</ul>
+<h4 id="Configuring-Run-Loop-Sources"><a href="#Configuring-Run-Loop-Sources" class="headerlink" title="Configuring Run Loop Sources"></a>Configuring Run Loop Sources</h4><p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/custominputsource.jpg" alt="image"></p>
+<ul>
+<li>The information you want your input source to process.（传递的消息）</li>
+<li>A scheduler routine to let interested clients know how to contact your input source.（订阅Source的回调）</li>
+<li>A handler routine to perform requests sent by any clients.（收到消息的回调）</li>
+<li>A cancellation routine to invalidate your input source.（取消订阅的回调）</li>
+</ul>
+<h3 id="第10章-网络"><a href="#第10章-网络" class="headerlink" title="第10章 网络"></a>第10章 网络</h3><p><img src="https://image.fundebug.com/2019-03-21-01.png" alt="image"></p>
+<h4 id="HTTP的请求方式"><a href="#HTTP的请求方式" class="headerlink" title="HTTP的请求方式"></a>HTTP的请求方式</h4><table>
+<thead>
+<tr>
+<th align="center">方法名</th>
+<th align="center">作用</th>
+<th align="center">安全性</th>
+<th align="center">幂等性</th>
+<th align="center">可缓存</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">GET</td>
+<td align="center">获取资源</td>
+<td align="center">YES</td>
+<td align="center">YES</td>
+<td align="center">YES</td>
+</tr>
+<tr>
+<td align="center">POST</td>
+<td align="center">处理资源</td>
+<td align="center">NO</td>
+<td align="center">NO</td>
+<td align="center">NO</td>
+</tr>
+<tr>
+<td align="center">PUT</td>
+<td align="center">更新资源</td>
+<td align="center">NO</td>
+<td align="center">YES</td>
+<td align="center">NO</td>
+</tr>
+<tr>
+<td align="center">DELETE</td>
+<td align="center">删除资源</td>
+<td align="center">NO</td>
+<td align="center">YES</td>
+<td align="center">NO</td>
+</tr>
+<tr>
+<td align="center">HEAD</td>
+<td align="center">类似于GET请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
+<td align="center">YES</td>
+<td align="center">YES</td>
+<td align="center">YES</td>
+</tr>
+<tr>
+<td align="center">OPTIONS</td>
+<td align="center">用于客户端查看服务器的性能</td>
+<td align="center">YES</td>
+<td align="center">YES</td>
+<td align="center">NO</td>
+</tr>
+</tbody></table>
+<h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><table>
+<thead>
+<tr>
+<th align="center">分类</th>
+<th align="center">描述</th>
+<th align="center">举例</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1xx</td>
+<td align="center">信息，服务器收到请求，需要请求者继续执行操作</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">2xx</td>
+<td align="center">成功，操作被成功接收并处理</td>
+<td align="center">200</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">3xx</td>
+<td align="center">重定向，需要进一步的操作以完成请求</td>
+<td align="center">301</td>
+<td align="center">重定向</td>
+</tr>
+<tr>
+<td align="center">4xx</td>
+<td align="center">客户端错误，请求包含语法错误或无法完成请求</td>
+<td align="center">401</td>
+<td align="center">用户认证失败</td>
+</tr>
+<tr>
+<td align="center">5xx</td>
+<td align="center">服务器错误，服务器在处理请求的过程中发生了错误</td>
+<td align="center">500</td>
+<td align="center">服务器内部错误，无法完成请求</td>
+</tr>
+</tbody></table>
+<h4 id="HTTP的特点"><a href="#HTTP的特点" class="headerlink" title="HTTP的特点"></a>HTTP的特点</h4><ul>
+<li>无连接</li>
+<li>无状态</li>
+</ul>
+<h5 id="持久连接"><a href="#持久连接" class="headerlink" title="持久连接"></a>持久连接</h5><p>头部字段</p>
+<ul>
+<li>Connection：keep-alive&amp;close</li>
+<li>time</li>
+<li>max</li>
+</ul>
+<p>怎样判断一个请求是否结束</p>
+<ul>
+<li>Content-Length</li>
+<li>chunked</li>
+</ul>
+<h5 id="Cookie-amp-Session"><a href="#Cookie-amp-Session" class="headerlink" title="Cookie&amp;Session"></a>Cookie&amp;Session</h5><p>HTTP协议无状态的一种补偿</p>
+<ul>
+<li>Cookie主要作用是用来区分用户，记录状态，保存在客户端</li>
+<li>Session主要作用是用来区分用户，记录状态，存放在服务端</li>
+</ul>
+<h4 id="HTTPS与网络安全"><a href="#HTTPS与网络安全" class="headerlink" title="HTTPS与网络安全"></a>HTTPS与网络安全</h4><p>HTTPS &#x3D; HTTP + SSL&#x2F;TLS</p>
+<pre class="mermaid">sequenceDiagram
+    Client->>Server: random A，ssl version，加密算法
+    Server->>Client: random B，包含公钥的CA证书
+    Client->>Client: 检查证书合法性
+    Client->>Server: random pre-master secret，公钥加密C
+    Note right of Server: 使用A、B、pre-master secret生成master secret
+    Note left of Client: 使用A、B、pre-master secret生成master secret
+    Client->>Server: master secret加密</pre>
+
+<h4 id="UDP（用户数据报协议）"><a href="#UDP（用户数据报协议）" class="headerlink" title="UDP（用户数据报协议）"></a>UDP（用户数据报协议）</h4><p>UDP是不具有可靠性的数据报协议。在UDP的情况下，虽然可以确保发送消息的大小，对应用层交下来的报文，不合并，不拆分，只是在其上面加上首部后就交给了下面的网络层，但是不能保证消息一定会到达。因此，应用需要根据自己的需要进行重发处理</p>
+<h5 id="首部格式"><a href="#首部格式" class="headerlink" title="首部格式"></a>首部格式</h5><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEc4d812ed27343d5f90304079d6e85799/13338" alt="image"></p>
+<h5 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>无连接</li>
+<li>尽最大努力交付</li>
+<li>面向报文</li>
+</ul>
+<h5 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h5><ul>
+<li>复用</li>
+<li>分用</li>
+<li>差错检测</li>
+</ul>
+<h4 id="TCP（传输控制协议）"><a href="#TCP（传输控制协议）" class="headerlink" title="TCP（传输控制协议）"></a>TCP（传输控制协议）</h4><p>TCP是面向连接的、可靠的流协议。</p>
+<p>TCP通过确认应答、重发控制、连接管理、拥塞控制以及窗口控制等机制实现可靠传输。</p>
+<h5 id="首部格式-1"><a href="#首部格式-1" class="headerlink" title="首部格式"></a>首部格式</h5><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1932c470363d16f0b4016d86825db93b/13339" alt="image"></p>
+<h5 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>面向连接</li>
+<li>可靠传输</li>
+<li>面向字节流</li>
+<li>流量控制</li>
+<li>拥塞控制</li>
+</ul>
+<h5 id="三次握手-amp-四次挥手"><a href="#三次握手-amp-四次挥手" class="headerlink" title="三次握手&amp;四次挥手"></a>三次握手&amp;四次挥手</h5><pre class="mermaid">sequenceDiagram
+    Client->>Server: SYN=1,seq=x
+    Note left of Client: SYN_SEND
+    Server->>Client: SYN=1,ACK=1,seq=y,ack=x+1
+    Note right of Server: SYN_RCVD
+    Client->>Server: ACK=1,seq=x+1,ack=y+1
+    Note left of Client: ESTABLISHED
+    Note right of Server: ESTABLISHED
+    Client->>Server: DATA
+    Server->>Client: DATA
+    Client->>Server: FIN=1,seq=u
+    Note Left of Client: FIN_WAIT1
+    Server->>Client: ACK=1,seq=v,ack=u+1
+    Note right of Server: CLOSE_WAIT
+    Note left of Client: FIN_WAIT2
+    Server->>Client: FIN=1,ACK=1,seq=w,ack=u+1
+    Note right of Server: LAST_ACK
+    Client->>Server: ACK=1,seq=u+1,ack=w+1
+    Note left of Client: TIME-WAIT
+    Note right of Server: CLOSE</pre>
+
+<h5 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h5><h6 id="无差错情况"><a href="#无差错情况" class="headerlink" title="无差错情况"></a>无差错情况</h6><pre class="mermaid">sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: 发送M1
+    S->>C: 确认M1
+    C->>S: 发送M2
+    S->>C: 确认M2
+    C->>S: 发送M3
+    S->>C: 确认M3</pre>
+
+<h6 id="超时重传"><a href="#超时重传" class="headerlink" title="超时重传"></a>超时重传</h6><pre class="mermaid">sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C-->>S: 发送M1
+    note right of S: M1有差错或者异常未到达
+    note left of C: 超时未收到M1确认报文，重传
+    C->>S: 发送M1
+    S->>C: 确认M1
+    C->>S: 发送M2</pre>
+
+<h6 id="确认丢失"><a href="#确认丢失" class="headerlink" title="确认丢失"></a>确认丢失</h6><pre class="mermaid">sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: 发送M1
+    note left of C: 超时未收到M1确认报文，重传
+    C->>S: 发送M1
+    S->>C: 确认M1
+    C->>S: 发送M2</pre>
+
+<h6 id="确认迟到"><a href="#确认迟到" class="headerlink" title="确认迟到"></a>确认迟到</h6><pre class="mermaid">sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: 发送M1
+    note left of C: 超时未收到M1确认报文，重传
+    C->>S: 发送M1
+    S->>C: 确认M1
+    C->>S: 发送M2
+    S-->>C: 确认M1
+    note left of C: 收到迟到的确认什么也不做</pre>
+
+<h5 id="面向字节流？"><a href="#面向字节流？" class="headerlink" title="面向字节流？"></a>面向字节流？</h5><p>TCP发送报文时，是将应用层数据写入TCP缓冲区中，然后由TCP协议来控制发送这里面的数据，而发送的状态是按字节流的方式发送的，跟应用层写下来的报文长度没有任何关系，所以说是流。</p>
+<p>作为对比的UDP，它没有缓冲区，应用层写的报文数据会直接加包头交给网络层，由网络层负责分片，所以是面向报文段的。</p>
+<h5 id="滑动窗口？"><a href="#滑动窗口？" class="headerlink" title="滑动窗口？"></a>滑动窗口？</h5><p>缓冲区小于滑动窗口，服务端只有在前面数据顺序的情况下发送ACK，客户端接受到ACK代表前面都发送完了，移动滑动窗口</p>
+<p>TCP并不是每一个报文段都会回复ACK的，可能会对两个报文段发送一个ACK，也可能会对多个报文段发送1个ACK【累计ACK】，比如说发送方有1&#x2F;2&#x2F;3 3个报文段，先发送了2,3 两个报文段，但是接收方期望收到1报文段，这个时候2,3报文段就只能放在缓存中等待报文1的空洞被填上，如果报文1，一直不来，报文2&#x2F;3也将被丢弃，如果报文1来了，那么会发送一个ACK对这3个报文进行一次确认。</p>
+<p>如果同一个确认应答连续收到3次，则代表需要重发了</p>
+<h5 id="拥塞控制？"><a href="#拥塞控制？" class="headerlink" title="拥塞控制？"></a>拥塞控制？</h5><ul>
+<li><p>慢开始，拥塞避免</p>
+</li>
+<li><p>快恢复，快重传</p>
+</li>
+</ul>
+<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEf2fd02cac003c369ba07e990d8548fdb/13344" alt="image"></p>
+<h5 id="相关问题"><a href="#相关问题" class="headerlink" title="相关问题"></a>相关问题</h5><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5d9c284b518825095879e7a5">面试官，不要再问我三次握手和四次挥手</a></p>
+<h6 id="为什么要三次握手"><a href="#为什么要三次握手" class="headerlink" title="为什么要三次握手"></a>为什么要三次握手</h6><ul>
+<li>第一次握手，服务端确认客户端可发，服务端可接收</li>
+<li>第二次握手，客户端确认客户端可收发，服务端可收发</li>
+<li>第三次握手，服务端确认客户端可收发，服务端可收发</li>
+</ul>
+<blockquote>
+<p>如果第一次握手因为某种原因失败了，客户端发起第二次，之后建立链接成功。如果两次握手，第一次由于其他原因导致的握手发送到服务端，服务端给客户端发送第二次握手，直接就建立链接了，多建立了一次链接。三次握手可以避免这个问题，客户收到第二次服务端第二次握手，可以不发送第三次握手。</p>
+</blockquote>
+<h6 id="三次握手的过程中可以传输数据吗？"><a href="#三次握手的过程中可以传输数据吗？" class="headerlink" title="三次握手的过程中可以传输数据吗？"></a>三次握手的过程中可以传输数据吗？</h6><blockquote>
+<p>其实第三次握手的时候，是可以携带数据的。但是，<strong>第一次、第二次握手不可以携带数据</strong>。也就是说，<strong>第一次握手不可以放数据，其中一个简单的原因就是会让服务器更加容易受到攻击了。而对于第三次的话，此时客户端已经处于 ESTABLISHED 状态。对于客户端来说，他已经建立起连接了，并且也已经知道服务器的接收、发送能力是正常的了，所以能携带数据也没啥毛病。</strong></p>
+</blockquote>
+<h6 id="如果第三次握手丢失了，客户端怎么处理？"><a href="#如果第三次握手丢失了，客户端怎么处理？" class="headerlink" title="如果第三次握手丢失了，客户端怎么处理？"></a>如果第三次握手丢失了，客户端怎么处理？</h6><blockquote>
+<p>如果此时ACK在网络中丢失，那么Server端该TCP连接的状态为SYN_RECV，并且依次等待3秒、6秒、12秒后重新发送SYN+ACK包，以便Client重新发送ACK包。<br>如果重发指定次数后，仍然未收到ACK应答，那么一段时间后，Server自动关闭这个连接。<br>但是Client认为这个连接已经建立，如果Client端向Server写数据，Server端将以RST包(用于强制关闭tcp连接)响应，方能感知到server的错误。</p>
+</blockquote>
+<h6 id="SYN攻击"><a href="#SYN攻击" class="headerlink" title="SYN攻击"></a>SYN攻击</h6><blockquote>
+<p><strong>服务器端的资源分配是在二次握手时分配的，而客户端的资源是在完成三次握手时分配的</strong>，所以服务器容易受到SYN洪泛攻击。SYN攻击就是Client在短时间内伪造大量不存在的IP地址，并向Server不断地发送SYN包，Server则回复确认包，并等待Client确认，由于源地址不存在，因此Server需要不断重发直至超时，这些伪造的SYN包将长时间占用未连接队列，导致正常的SYN请求因为队列满而被丢弃，从而引起网络拥塞甚至系统瘫痪。SYN 攻击是一种典型的 DoS&#x2F;DDoS 攻击。</p>
+</blockquote>
+<h6 id="为什么客户端发送ACK之后不自动关闭，要等一阵？"><a href="#为什么客户端发送ACK之后不自动关闭，要等一阵？" class="headerlink" title="为什么客户端发送ACK之后不自动关闭，要等一阵？"></a>为什么客户端发送ACK之后不自动关闭，要等一阵？</h6><blockquote>
+<p>因为当服务端收到客户端的SYN连接请求报文后，可以直接发送SYN+ACK报文。其中<strong>ACK报文是用来应答的，SYN报文是用来同步的</strong>。但是关闭连接时，当服务端收到FIN报文时，很可能并不会立即关闭SOCKET，所以只能先回复一个ACK报文，告诉客户端，”你发的FIN报文我收到了”。只有等到我服务端所有的报文都发送完了，我才能发送FIN报文，因此不能一起发送。故需要四次挥手。<br>就是为什么FIN和ACK没有向三次握手那样一起发，因为SOCKET不会立即关闭。需要等服务端数据发送完了，在发送服务端FIN</p>
+</blockquote>
+<h4 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h4><h5 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h5><ul>
+<li><p>HTTPDNS</p>
+<p>ip直连，通过http请求来解析ip</p>
+</li>
+<li><p>长连接</p>
+</li>
+</ul>
+<h3 id="第11章-设计模式"><a href="#第11章-设计模式" class="headerlink" title="第11章 设计模式"></a>第11章 设计模式</h3><ul>
+<li>单一职责</li>
+<li>开闭</li>
+<li>里氏替换（子类可以替换父类）</li>
+<li>依赖倒置（高模块不依赖低模块）</li>
+<li>接口隔离（类间的依赖关系应该建立在最小的接口上）</li>
+<li>迪米特（最少知识原则，也就是说，一个对象应当对其他对象尽可能少的了解）</li>
+</ul>
+<h4 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h4><pre class="mermaid">classDiagram
+    Aggregate <|.. ConcreteAggregate : Realization
+    Aggregate --> Interator : Creates
+    Interator <|.. ConcreteInterator : Realization
+    ConcreteAggregate --o ConcreteInterator
+     class Interator {
+    <<interface>>
+    hasNext()
+    next()
+     }
+     class ConcreteInterator {
+         aggregate
+    hasNext()
+    next()
+     }
+     class Aggregate {
+         <<interface>>
+    interator()
+     }
+     class ConcreteAggregate {
+    interator()
+     }</pre>
+
+
+
+<h4 id="建造者"><a href="#建造者" class="headerlink" title="建造者"></a>建造者</h4><pre class="mermaid">classDiagram
+    Director o-- Builder
+    Builder <|-- ConcreteBuilder
+    Client --> Director : Uses
+    Client --> ConcreteBuilder : Uses
+    Director : builder
+    Director : construct()
+  Builder : buildPart1()
+    Builder : buildPart2()
+    class ConcreteBuilder {
+        buildPart1()
+        buildPart2()
+        getResult()
+    }</pre>
+
+
+
+<h4 id="责任链"><a href="#责任链" class="headerlink" title="责任链"></a>责任链</h4><pre class="mermaid">classDiagram
+    Client --> Handler : Request
+    Handler o-- Handler
+    Handler <|-- ConcreteHandler1
+  Handler <|-- ConcreteHandler2
+    Handler : next()
+    Handler : request()
+  class ConcreteHandler1{
+        request()
+  }
+  class ConcreteHandler2{
+        request()
+  }
+  class Client{
+  }</pre>
+
+
+
+<h4 id="观察者"><a href="#观察者" class="headerlink" title="观察者"></a>观察者</h4><pre class="mermaid">classDiagram
+    Subject <|-- ConcreteSubject
+    Oberver <|-- ConcreteOberver
+    Oberver --o Subject : Notifies
+    Subject : observers
+  Subject : addObserver()
+    Subject : deleteObserver()
+    Subject : notifyObserver()
+    Subject : getSubjectStatus()
+    class ConcreteSubject {
+        getSubjectStatus()
+    }
+    Oberver : update()
+     class ConcreteOberver {
+     	update()
+     }</pre>
+
+<h3 id="第14章-第三方库"><a href="#第14章-第三方库" class="headerlink" title="第14章 第三方库"></a>第14章 第三方库</h3><h4 id="AFNNetworking"><a href="#AFNNetworking" class="headerlink" title="AFNNetworking"></a>AFNNetworking</h4><h4 id="SDWebImage"><a href="#SDWebImage" class="headerlink" title="SDWebImage"></a>SDWebImage</h4><ul>
+<li><p>SDMemoryCache</p>
+<p>Use a strong-weak maptable storing the secondary cache. Follow the doc that NSCache does not copy keys</p>
+<p>This is useful when the memory warning, the cache was purged. However, the image instance can be retained by other instance such as imageViews and alive.</p>
+<p>At this case, we can sync weak cache back and do not need to load from disk cache</p>
+</li>
+</ul>
+<h3 id="第MAX章-面试问题总结"><a href="#第MAX章-面试问题总结" class="headerlink" title="第MAX章 面试问题总结"></a>第MAX章 面试问题总结</h3><h4 id="自旋锁为什么不安全"><a href="#自旋锁为什么不安全" class="headerlink" title="自旋锁为什么不安全"></a><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1505582">自旋锁为什么不安全</a></h4><p>优先级反转</p>
+<blockquote>
+<p>有：高优先级任务A &#x2F; 次高优先级任务B &#x2F; 低优先级任务C &#x2F; 资源Z 。<br><code>A 等待 C 执行后的 Z</code>，<br><code>而 B 并不需要 Z，抢先获得时间片执行</code>。<br><code>C 由于没有时间片，无法执行</code>(优先级相对没有B高)。<br> 这种情况造成 A 在C 之后执行,C在B之后，间接的高优先级A在次高优先级任务B 之后执行, 使得优先级被倒置了。（假设： A 等待资源时不是阻塞等待，而是忙循环，则可能永远无法获得资源。此时 C 无法与 A 争夺 CPU 时间，从而 C 无法执行，进而无法释放资源。造成的后果，就是 A 无法获得 Z 而继续推进。）</p>
+</blockquote>
+<p>而 OSSpinLock 忙等的机制，就可能造成高优先级一直 running ，占用 cpu 时间片。而低优先级任务无法抢占时间片，变成迟迟完不成，不释放锁的情况。</p>
+<h5 id="优先级反转的解决方案"><a href="#优先级反转的解决方案" class="headerlink" title="优先级反转的解决方案"></a>优先级反转的解决方案</h5><ul>
+<li>优先级继承</li>
+</ul>
+<blockquote>
+<p>优先级继承，故名思义，是将占有锁的线程优先级，继承等待该锁的线程高优先级，如果存在多个线程等待，就取其中之一最高的优先级继承。</p>
+</blockquote>
+<ul>
+<li>优先级天花板</li>
+</ul>
+<blockquote>
+<p>优先级天花板，则是直接设置优先级上限，给临界区一个最高优先级，进入临界区的进程都将获得这个高优先级。如果其他试图进入临界区的进程的优先级，都低于这个最高优先级，那么优先级反转就不会发生。</p>
+</blockquote>
+<ul>
+<li>禁止中断</li>
+</ul>
+<h4 id="分块查找"><a href="#分块查找" class="headerlink" title="分块查找"></a>分块查找</h4><p>将n个数据元素”按块有序”划分为m块（m ≤ n）。</p>
+<p>每一块中的结点不必有序，但块与块之间必须”按块有序”；即第1块中任一元素的关键字都必须小于第2块中任一元素的关键字；而第2块中任一元素又都必须小于第3块中的任一元素，……。</p>
+<p>然后使用二分查找及顺序查找。</p>
+<h5 id="dispatch-group-async"><a href="#dispatch-group-async" class="headerlink" title="dispatch_group_async"></a>dispatch_group_async</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">dispatch_async</span><span class="params">(<span class="type">dispatch_queue_t</span> dq, <span class="type">dispatch_block_t</span> work)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">dispatch_continuation_t</span> dc = _dispatch_continuation_alloc();</span><br><span class="line">	<span class="type">uintptr_t</span> dc_flags = DC_FLAG_CONSUME;</span><br><span class="line">	<span class="type">dispatch_qos_t</span> qos;</span><br><span class="line"></span><br><span class="line">	qos = _dispatch_continuation_init(dc, dq, work, <span class="number">0</span>, dc_flags);</span><br><span class="line">	_dispatch_continuation_async(dq, dc, qos, dc-&gt;dc_flags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span></span></span><br><span class="line"><span class="function"><span class="title">dispatch_group_async</span><span class="params">(<span class="type">dispatch_group_t</span> dg, <span class="type">dispatch_queue_t</span> dq,</span></span></span><br><span class="line"><span class="params"><span class="function">		<span class="type">dispatch_block_t</span> db)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">dispatch_continuation_t</span> dc = _dispatch_continuation_alloc();</span><br><span class="line">	<span class="type">uintptr_t</span> dc_flags = DC_FLAG_CONSUME | DC_FLAG_GROUP_ASYNC;</span><br><span class="line">	<span class="type">dispatch_qos_t</span> qos;</span><br><span class="line"></span><br><span class="line">	qos = _dispatch_continuation_init(dc, dq, db, <span class="number">0</span>, dc_flags);</span><br><span class="line">	_dispatch_continuation_group_async(dg, dq, dc, qos);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="WKWebView相关问题"><a href="#WKWebView相关问题" class="headerlink" title="WKWebView相关问题"></a>WKWebView相关问题</h4><ol>
+<li><p><code>goback Api</code>返回不刷新</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&quot;pageshow&quot;</span>, <span class="keyword">function</span>(<span class="params">event</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(event.<span class="property">persisted</span>)&#123;</span><br><span class="line">        location.<span class="title function_">reload</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);	</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当 WKWebView 总体内存占用过大，WKWebView 白屏问题</p>
+<ul>
+<li>webViewWebContentProcessDidTerminate 回调里面reload</li>
+<li>可以在 viewWillAppear 的时候检测 webView.title 是否为空来 reload 页面。</li>
+</ul>
+</li>
+<li><p>WKWebView Cookie 问题在于 WKWebView 发起的请求不会自动带上存储于 NSHTTPCookieStorage 容器中的 Cookie。<br>- WKWebView loadRequest 前，在 request header 中设置 Cookie, 解决首个请求 Cookie 带不上的问题</p>
+<ul>
+<li>通过 document.cookie 设置 Cookie 解决后续页面(同域)Ajax、iframe 请求的 Cookie 问题</li>
+<li>跨域请求，在decidePolicyForNavigationAction回调中处理</li>
+<li>js中hook document相关set&amp;get cookie方法回调Native获取，保证存储及时</li>
+</ul>
+</li>
+<li><p>在 WKWebView 上通过 loadRequest 发起的 post 请求 body 数据会丢失	</p>
+<ul>
+<li>将body放到header里，客户端拦截请求，从header中拿出来body在post</li>
+</ul>
+</li>
+<li><p>crash，基本都是由于wk释放导致js中野指针的问题</p>
+<ul>
+<li>alter，completionHandler 没有被调用导致的。在适配 WKWebView 的时候，我们需要自己实现该回调函数，window.alert()才能调起 alert 框，我们最初的实现是这样的</li>
+<li>如果 WKWebView 退出的时候，JS刚好执行了window.alert(), alert 框可能弹不出来，completionHandler 最后没有被执行，导致 crash；另一种情况是在 WKWebView 一打开，JS就执行window.alert()，这个时候由于 WKWebView 所在的 UIViewController 出现（push或present）的动画尚未结束，alert 框可能弹不出来，completionHandler 最后没有被执行，导致 crash。</li>
+</ul>
+</li>
+<li><p>用iframe是因为wk是独立进程拦截不到相关请求</p>
+</li>
+</ol>
+<h4 id="CocoaPods相关"><a href="#CocoaPods相关" class="headerlink" title="CocoaPods相关"></a>CocoaPods相关</h4><h5 id="到底什么是静态库-amp-动态库？"><a href="#到底什么是静态库-amp-动态库？" class="headerlink" title="到底什么是静态库&amp;动态库？"></a>到底什么是静态库&amp;动态库？</h5><h6 id="表现形式"><a href="#表现形式" class="headerlink" title="表现形式"></a>表现形式</h6><p>静态库：.a和.framework文件是一个纯二进制文件，.framework除了二进制文件还有外部资源文件；.a不能直接使用，至少要有.h配合；.framework可以直接使用</p>
+<p>动态库：.tbd（系统库）和.framework</p>
+<h6 id="编译过程-1"><a href="#编译过程-1" class="headerlink" title="编译过程"></a>编译过程</h6><p>静态库：链接时完整地拷贝至可执行文件中，被多次使用就有多分冗余考费</p>
+<p>动态库：链接时不复制，程序运行时由系统动态加载到内存，供程序使用，系统只加载一次，多个程序共用，节省内存</p>
+<h6 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h6><ul>
+<li><p>静态库编译快</p>
+</li>
+<li><p>动态库可以节省内存</p>
+</li>
+<li><p>动态库可以不编译程序的前提下，更新动态库文件打到更新应用的目的</p>
+</li>
+<li><p>应用插件化</p>
+</li>
+</ul>
+<h5 id="为什么use-frameworks"><a href="#为什么use-frameworks" class="headerlink" title="为什么use_frameworks!"></a>为什么use_frameworks!</h5><p>包含Swift代码的库不支持静态库，默认全都动态了（1.4.0之后不用了）</p>
+<h5 id="为什么不全用静态库"><a href="#为什么不全用静态库" class="headerlink" title="为什么不全用静态库"></a>为什么不全用静态库</h5><ol>
+<li>静态库全都拷贝的可执行文件，同名C方法会被覆盖</li>
+<li>？</li>
+</ol>
+<h4 id="断点续传"><a href="#断点续传" class="headerlink" title="断点续传"></a>断点续传</h4><h4 id="Content-x2F-Type"><a href="#Content-x2F-Type" class="headerlink" title="Content&#x2F;Type"></a>Content&#x2F;Type</h4><h4 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h4><h4 id="字符串替换"><a href="#字符串替换" class="headerlink" title="字符串替换"></a>字符串替换</h4><h4 id="Hybrid通信方式-多次点击"><a href="#Hybrid通信方式-多次点击" class="headerlink" title="Hybrid通信方式 多次点击"></a>Hybrid通信方式 多次点击</h4><h4 id="HTTP-304-缓存"><a href="#HTTP-304-缓存" class="headerlink" title="HTTP 304 缓存"></a><a target="_blank" rel="noopener" href="https://blog.csdn.net/soonfly/article/details/50953814">HTTP 304 缓存</a></h4><h4 id="校验下载文件的完整性"><a href="#校验下载文件的完整性" class="headerlink" title="校验下载文件的完整性"></a><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_5ee9f2800102wscn.html">校验下载文件的完整性</a></h4><script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script><textarea id="flowchart-0-code" style="display: none">A=>start: Start
+B=>condition: has setter
+C=>operation: Invoke
+D=>end: End
+E=>condition: has instance var
+F=>operation: setValue:forUndefinedKey:
+G=>operation: NSUndefinedKeyException
+A->B
+B(yes)->C->D
+B(no)->E
+E(yes)->C->D
+E(no)->F->G->D</textarea><textarea id="flowchart-0-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-0-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-0-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-0", options);</script><textarea id="flowchart-1-code" style="display: none">A=>start: 开始
+B=>condition: 缓存
+C=>condition: 父类方法列表
+D=>condition: 逐级父类方法列表
+E=>operation: Invoke
+F=>operation: 消息转发
+G=>end: 结束
+A->B
+B(yes)->E->G
+B(no)->C
+C(yes)->E
+C(no)->D
+D(yes)->E
+D(no)->F
+F->G</textarea><textarea id="flowchart-1-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-1-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-1-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-1", options);</script><textarea id="flowchart-2-code" style="display: none">A=>start: 开始
+B=>operation: curClass=curClass->superclass
+C=>condition: curClass==nil
+D=>condition: 缓存是否命中
+E=>condition: 方法列表是否命中
+F=>end: 结束
+A->B->C
+C(yes)->F
+C(no)->D
+D(yes)->F
+D(no)->E
+E(yes)->F
+E(no)->B</textarea><textarea id="flowchart-2-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-2-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-2-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-2", options);</script><textarea id="flowchart-3-code" style="display: none">AA=>start: 开始
+ZZ=>end: 结束
+A=>operation: result = +(BOOL)resolveInstanceMethod:(SEL)sel
+B=>condition: result
+C=>operation: target = -(id)forwardingTargetForSelector:(SEL)aSelector
+D=>condition: target!=nil
+E=>operation: signature = -(NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+F=>condition: signature!=nil
+G=>operation: -(void)forwardInvocation:(NSInvocation *)anInvocation
+H=>operation: 消息已处理
+I=>operation: 消息无法处理
+AA->A->B
+B(no)->C->D
+B(yes, right)->H
+D(no)->E->F
+D(yes, right)->H
+F(yes, right)->G->H
+F(no)->I
+H->ZZ
+I->ZZ</textarea><textarea id="flowchart-3-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-3-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-3-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-3", options);</script><textarea id="flowchart-4-code" style="display: none">  A=>start: objc_initWeak()
+  B=>operation: objc_copyWeak(id *dst, id *src)
+  C=>operation: objc_loadWeakRetained(id *location)
+  D=>end: objc_storeStrong(id *location, id obj)
+  A->B->C->D</textarea><textarea id="flowchart-4-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-4-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-4-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-4", options);</script><textarea id="flowchart-5-code" style="display: none">A=>start: [[NSObject new] dealloc]
+B=>operation: _objc_rootDealloc(self)
+C=>operation: obj->rootDealloc()
+D=>condition: 判断是否可
+以直接清除
+E=>end: free(this)
+F=>operation: object_dispose((id)this)
+G=>operation: objc_destructInstance(obj)
+H=>condition: obj->
+hasCxxDtor()
+I=>condition: obj->
+hasAssociatedObjects()
+J=>operation: object_cxxDestruct(obj)
+K=>operation: _object_remove_assocations(obj)
+L=>operation: obj->clearDeallocating()
+A->B->C->D
+D(yes, right)->E
+D(no)->F->G->H
+H(yes, right)->J->I
+H(no)->I
+I(yes, right)->K->L
+I(no)->L->E</textarea><textarea id="flowchart-5-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-5-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-5-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-5", options);</script><textarea id="flowchart-6-code" style="display: none">A=>start: dispatch_semaphore_wait
+ZZ=>end: 结束
+B=>operation: --dsema_value
+C=>condition: value<0
+D=>operation: _dispatch_semaphore_wait_slow(dsema, timeout)
+E=>condition: timeout==now
+F=>condition: timeout==forever
+G=>operation: _dispatch_sema4_wait(&dsema->dsema_sema)
+H=>operation: do { kr = semaphore_wait(*sema) 
+} while (kr == KERN_ABORTED)
+I=>operation: _DSEMA4_TIMEOUT()
+J=>operation: _dispatch_sema4_timedwait(&dsema->dsema_sema, timeout)
+K=>operation: do { kr = semaphore_timedwait(*sema, _timeout);
+} while (unlikely(kr == KERN_ABORTED))
+L=>condition: kr==TIMED_OUT
+A->B->C
+C(yes)->D->E
+C(no)->ZZ
+E(no)->F
+E(yes, right)->I->ZZ
+F(no)->J->K->L
+F(yes, right)->G->H->ZZ
+L(yes)->ZZ
+L(no)->ZZ</textarea><textarea id="flowchart-6-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-6-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-6-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-6", options);</script><textarea id="flowchart-7-code" style="display: none">A=>start: dispatch_semaphore_signal
+B=>operation: ++dsema_value
+C=>condition: value<=0
+D=>operation: _dispatch_semaphore_signal_slow(dsema)
+E=>operation: _dispatch_sema4_signal
+F=>operation: 通过wait的先后顺序唤醒一个等待
+G=>end: 结束
+A->B->C
+C(yes)->D->E->F->G
+C(no, right)->G</textarea><textarea id="flowchart-7-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-7-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-7-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-7", options);</script><textarea id="flowchart-8-code" style="display: none">A=>start: _dispatch_semaphore_dispose
+B=>condition: dsema_value<
+dsema_orig
+C=>operation: _dispatch_sema4_dispose(sema, policy)
+D=>operation: _dispatch_sema4_dispose_slow(sema, policy)
+E=>operation: semaphore_destroy(mach_task_self(), sema_port)
+F=>operation: 异常，还有信号量在使用，不能释放
+G=>end: 结束
+A->B
+B(no)->C->D->E->G
+B(yes,right)->F->G</textarea><textarea id="flowchart-8-options" style="display: none">{"scale":1,"line-width":2,"line-length":50,"text-margin":10,"font-size":12}</textarea><script>  var code = document.getElementById("flowchart-8-code").value;  var options = JSON.parse(decodeURIComponent(document.getElementById("flowchart-8-options").value));  var diagram = flowchart.parse(code);  diagram.drawSVG("flowchart-8", options);</script>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/20/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" rel="prev" title="两数之和">
+      <i class="fa fa-chevron-left"></i> 两数之和
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC0%E7%AB%A0-%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">第0章 写在前面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E5%A5%BD%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%8F%AF%E7%BC%96%E8%AF%91%E4%BB%A5%E4%B8%8B%E6%BA%90%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">最好下载并可编译以下源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BitCode"><span class="nav-number">1.2.</span> <span class="nav-text">BitCode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Clang-%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">Clang 的编译过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LLVM-%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.2.</span> <span class="nav-text">LLVM 的编译过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">加载过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mach-O"><span class="nav-number">1.5.</span> <span class="nav-text">Mach-O</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC3%E7%AB%A0-UI%E8%A7%86%E5%9B%BE"><span class="nav-number">2.</span> <span class="nav-text">第3章 UI视图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E4%BC%A0%E9%80%92%EF%BC%88%E6%89%BE%E5%88%B0%E7%82%B9%E5%87%BB%E7%9A%84View%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">事件传递（找到点击的View）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%EF%BC%88%E6%89%BE%E5%88%B0%E5%93%8D%E5%BA%94%E7%9A%84View%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">事件响应（找到响应的View）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E7%BB%98%E5%88%B6"><span class="nav-number">2.3.</span> <span class="nav-text">异步绘制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93"><span class="nav-number">2.4.</span> <span class="nav-text">离屏渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E8%A7%A6%E5%8F%91"><span class="nav-number">2.4.1.</span> <span class="nav-text">何时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BD%95%E8%A6%81%E9%81%BF%E5%85%8D"><span class="nav-number">2.4.2.</span> <span class="nav-text">为何要避免</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC4%E7%AB%A0-Objective-C%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">第4章 Objective-C语言特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">3.1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">3.1.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">3.1.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E6%B7%BB%E5%8A%A0%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">3.1.3.</span> <span class="nav-text">可添加的内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="nav-number">3.1.4.</span> <span class="nav-text">关联对象的本质</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">3.2.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSNotification"><span class="nav-number">3.3.</span> <span class="nav-text">NSNotification</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVO"><span class="nav-number">3.4.</span> <span class="nav-text">KVO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVC"><span class="nav-number">3.5.</span> <span class="nav-text">KVC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#copy%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">3.6.</span> <span class="nav-text">copy关键字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC5%E7%AB%A0-Runtime"><span class="nav-number">4.</span> <span class="nav-text">第5章 Runtime</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#isa%E6%8C%87%E9%92%88"><span class="nav-number">4.1.</span> <span class="nav-text">isa指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#objc-class%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">4.2.</span> <span class="nav-text">objc_class的结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#isa%E6%8C%87%E5%90%91"><span class="nav-number">4.3.</span> <span class="nav-text">isa指向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cache-t"><span class="nav-number">4.4.</span> <span class="nav-text">cache_t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class-data-bits-t"><span class="nav-number">4.5.</span> <span class="nav-text">class_data_bits_t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#method-t"><span class="nav-number">4.6.</span> <span class="nav-text">method_t</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%AF%B9%E8%B1%A1%E3%80%81%E5%85%83%E7%B1%BB%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.7.</span> <span class="nav-text">对象、类对象、元类对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92"><span class="nav-number">4.8.</span> <span class="nav-text">消息传递</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%9F%A5%E6%89%BE"><span class="nav-number">4.8.1.</span> <span class="nav-text">缓存查找</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E7%B1%BB%E4%B8%AD%E6%9F%A5%E6%89%BE"><span class="nav-number">4.8.2.</span> <span class="nav-text">当前类中查找</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%88%B6%E7%B1%BB%E9%80%90%E7%BA%A7%E6%9F%A5%E6%89%BE"><span class="nav-number">4.8.3.</span> <span class="nav-text">父类逐级查找</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="nav-number">4.9.</span> <span class="nav-text">消息转发</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E7%9A%84%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="nav-number">4.9.1.</span> <span class="nav-text">实例的消息转发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="nav-number">4.9.2.</span> <span class="nav-text">类的消息转发</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="nav-number">4.10.</span> <span class="nav-text">动态方法解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC6%E7%AB%A0-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">第6章 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="nav-number">5.1.</span> <span class="nav-text">对象内存大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%96%B9%E6%A1%88"><span class="nav-number">5.2.</span> <span class="nav-text">内存管理方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#TaggedPointer-%E5%B0%8F%E5%AF%B9%E8%B1%A1"><span class="nav-number">5.2.1.</span> <span class="nav-text">TaggedPointer(小对象)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NONPOINTER-ISA"><span class="nav-number">5.2.2.</span> <span class="nav-text">NONPOINTER_ISA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%A3%E5%88%97%E8%A1%A8"><span class="nav-number">5.2.3.</span> <span class="nav-text">散列表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SideTable"><span class="nav-number">5.3.</span> <span class="nav-text">SideTable</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#spinlock-t"><span class="nav-number">5.3.1.</span> <span class="nav-text">spinlock_t</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#RefcountMap"><span class="nav-number">5.3.2.</span> <span class="nav-text">RefcountMap</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#weak-table-t"><span class="nav-number">5.3.3.</span> <span class="nav-text">weak_table_t</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MRC-amp-ARC"><span class="nav-number">5.4.</span> <span class="nav-text">MRC&amp;ARC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%AE%A1%E7%90%86"><span class="nav-number">5.4.1.</span> <span class="nav-text">引用计数管理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#alloc"><span class="nav-number">5.4.1.1.</span> <span class="nav-text">alloc</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#strong"><span class="nav-number">5.4.1.2.</span> <span class="nav-text">strong</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#retain"><span class="nav-number">5.4.1.3.</span> <span class="nav-text">retain</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#release"><span class="nav-number">5.4.1.4.</span> <span class="nav-text">release</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#retainCount"><span class="nav-number">5.4.1.5.</span> <span class="nav-text">retainCount</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#dealloc"><span class="nav-number">5.4.1.6.</span> <span class="nav-text">dealloc</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8%E7%AE%A1%E7%90%86"><span class="nav-number">5.4.2.</span> <span class="nav-text">弱引用管理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0weak%E5%8F%98%E9%87%8F"><span class="nav-number">5.4.2.1.</span> <span class="nav-text">添加weak变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B8%85%E9%99%A4weak%E5%8F%98%E9%87%8F%EF%BC%8C%E5%90%8C%E6%97%B6%E8%AE%BE%E7%BD%AE%E6%8C%87%E5%90%91%E4%B8%BAnil"><span class="nav-number">5.4.2.2.</span> <span class="nav-text">清除weak变量，同时设置指向为nil</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0"><span class="nav-number">5.5.</span> <span class="nav-text">自动释放池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.6.</span> <span class="nav-text">循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%EF%BC%8C%E5%AF%B9%E8%B1%A1%E4%B8%ADobj%E6%8C%81%E6%9C%89%E4%BA%86%E8%87%AA%E5%B7%B1"><span class="nav-number">5.6.1.</span> <span class="nav-text">自循环引用，对象中obj持有了自己</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E4%BA%92%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.6.2.</span> <span class="nav-text">相互循环引用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%9A%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.6.3.</span> <span class="nav-text">多循环引用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NSTimer%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98"><span class="nav-number">5.6.4.</span> <span class="nav-text">NSTimer的循环引用问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC7%E7%AB%A0-Block"><span class="nav-number">6.</span> <span class="nav-text">第7章 Block</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBlock"><span class="nav-number">6.1.</span> <span class="nav-text">什么是Block</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-amp-%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%8C%BA%E5%88%AB"><span class="nav-number">6.2.</span> <span class="nav-text">全局变量&amp;静态全局变量区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%AA%E8%8E%B7%E5%8F%98%E9%87%8F"><span class="nav-number">6.3.</span> <span class="nav-text">截获变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#block%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">6.4.</span> <span class="nav-text">__block修饰符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Block%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">6.5.</span> <span class="nav-text">Block的内存管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC8%E7%AB%A0-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">7.</span> <span class="nav-text">第8章 多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GCD"><span class="nav-number">7.1.</span> <span class="nav-text">GCD</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5-x2F-%E5%BC%82%E6%AD%A5-%E5%92%8C-%E4%B8%B2%E8%A1%8C-x2F-%E5%B9%B6%E5%8F%91"><span class="nav-number">7.1.1.</span> <span class="nav-text">同步&#x2F;异步 和 串行&#x2F;并发</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSOperation"><span class="nav-number">7.2.</span> <span class="nav-text">NSOperation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E7%8A%B6%E6%80%81"><span class="nav-number">7.2.1.</span> <span class="nav-text">任务执行状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%8E%A7%E5%88%B6"><span class="nav-number">7.2.2.</span> <span class="nav-text">状态控制</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSThread"><span class="nav-number">7.3.</span> <span class="nav-text">NSThread</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81"><span class="nav-number">7.4.</span> <span class="nav-text">锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-semaphore-t"><span class="nav-number">7.5.</span> <span class="nav-text">dispatch_semaphore_t</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-semaphore-create"><span class="nav-number">7.5.1.</span> <span class="nav-text">dispatch_semaphore_create</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-semaphore-wait"><span class="nav-number">7.5.2.</span> <span class="nav-text">dispatch_semaphore_wait</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-semaphore-signal"><span class="nav-number">7.5.3.</span> <span class="nav-text">dispatch_semaphore_signal</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-semaphore-dispose"><span class="nav-number">7.5.4.</span> <span class="nav-text">_dispatch_semaphore_dispose</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E5%AE%83%E4%BF%9D%E8%AF%81%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">7.6.</span> <span class="nav-text">其它保证线程安全的方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC9%E7%AB%A0-RunLoop"><span class="nav-number">8.</span> <span class="nav-text">第9章 RunLoop</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Input-Sources"><span class="nav-number">8.1.</span> <span class="nav-text">Input Sources</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Timer-Sources"><span class="nav-number">8.2.</span> <span class="nav-text">Timer Sources</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Run-Loop-Sequence-of-Events"><span class="nav-number">8.3.</span> <span class="nav-text">The Run Loop Sequence of Events</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#When-Would-You-Use-a-Run-Loop"><span class="nav-number">8.4.</span> <span class="nav-text">When Would You Use a Run Loop?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Configuring-Run-Loop-Sources"><span class="nav-number">8.5.</span> <span class="nav-text">Configuring Run Loop Sources</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC10%E7%AB%A0-%E7%BD%91%E7%BB%9C"><span class="nav-number">9.</span> <span class="nav-text">第10章 网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E7%9A%84%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="nav-number">9.1.</span> <span class="nav-text">HTTP的请求方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-number">9.2.</span> <span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">9.3.</span> <span class="nav-text">HTTP的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E8%BF%9E%E6%8E%A5"><span class="nav-number">9.3.1.</span> <span class="nav-text">持久连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Cookie-amp-Session"><span class="nav-number">9.3.2.</span> <span class="nav-text">Cookie&amp;Session</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS%E4%B8%8E%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="nav-number">9.4.</span> <span class="nav-text">HTTPS与网络安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDP%EF%BC%88%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="nav-number">9.5.</span> <span class="nav-text">UDP（用户数据报协议）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F"><span class="nav-number">9.5.1.</span> <span class="nav-text">首部格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-2"><span class="nav-number">9.5.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">9.5.3.</span> <span class="nav-text">功能</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP%EF%BC%88%E4%BC%A0%E8%BE%93%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE%EF%BC%89"><span class="nav-number">9.6.</span> <span class="nav-text">TCP（传输控制协议）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A6%96%E9%83%A8%E6%A0%BC%E5%BC%8F-1"><span class="nav-number">9.6.1.</span> <span class="nav-text">首部格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E7%82%B9-3"><span class="nav-number">9.6.2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-amp-%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">9.6.3.</span> <span class="nav-text">三次握手&amp;四次挥手</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93"><span class="nav-number">9.6.4.</span> <span class="nav-text">可靠传输</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%97%A0%E5%B7%AE%E9%94%99%E6%83%85%E5%86%B5"><span class="nav-number">9.6.4.1.</span> <span class="nav-text">无差错情况</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E9%87%8D%E4%BC%A0"><span class="nav-number">9.6.4.2.</span> <span class="nav-text">超时重传</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E4%B8%A2%E5%A4%B1"><span class="nav-number">9.6.4.3.</span> <span class="nav-text">确认丢失</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E8%BF%9F%E5%88%B0"><span class="nav-number">9.6.4.4.</span> <span class="nav-text">确认迟到</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AD%97%E8%8A%82%E6%B5%81%EF%BC%9F"><span class="nav-number">9.6.5.</span> <span class="nav-text">面向字节流？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%EF%BC%9F"><span class="nav-number">9.6.6.</span> <span class="nav-text">滑动窗口？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%EF%BC%9F"><span class="nav-number">9.6.7.</span> <span class="nav-text">拥塞控制？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">9.6.8.</span> <span class="nav-text">相关问题</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">9.6.8.1.</span> <span class="nav-text">为什么要三次握手</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%8F%AF%E4%BB%A5%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E5%90%97%EF%BC%9F"><span class="nav-number">9.6.8.2.</span> <span class="nav-text">三次握手的过程中可以传输数据吗？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%A2%E5%A4%B1%E4%BA%86%EF%BC%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">9.6.8.3.</span> <span class="nav-text">如果第三次握手丢失了，客户端怎么处理？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#SYN%E6%94%BB%E5%87%BB"><span class="nav-number">9.6.8.4.</span> <span class="nav-text">SYN攻击</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8F%91%E9%80%81ACK%E4%B9%8B%E5%90%8E%E4%B8%8D%E8%87%AA%E5%8A%A8%E5%85%B3%E9%97%AD%EF%BC%8C%E8%A6%81%E7%AD%89%E4%B8%80%E9%98%B5%EF%BC%9F"><span class="nav-number">9.6.8.5.</span> <span class="nav-text">为什么客户端发送ACK之后不自动关闭，要等一阵？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS"><span class="nav-number">9.7.</span> <span class="nav-text">DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DNS%E5%8A%AB%E6%8C%81"><span class="nav-number">9.7.1.</span> <span class="nav-text">DNS劫持</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC11%E7%AB%A0-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">10.</span> <span class="nav-text">第11章 设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">10.1.</span> <span class="nav-text">迭代器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E9%80%A0%E8%80%85"><span class="nav-number">10.2.</span> <span class="nav-text">建造者</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%A3%E4%BB%BB%E9%93%BE"><span class="nav-number">10.3.</span> <span class="nav-text">责任链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85"><span class="nav-number">10.4.</span> <span class="nav-text">观察者</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC14%E7%AB%A0-%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93"><span class="nav-number">11.</span> <span class="nav-text">第14章 第三方库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AFNNetworking"><span class="nav-number">11.1.</span> <span class="nav-text">AFNNetworking</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDWebImage"><span class="nav-number">11.2.</span> <span class="nav-text">SDWebImage</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%ACMAX%E7%AB%A0-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="nav-number">12.</span> <span class="nav-text">第MAX章 面试问题总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%AE%89%E5%85%A8"><span class="nav-number">12.1.</span> <span class="nav-text">自旋锁为什么不安全</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E5%8F%8D%E8%BD%AC%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">12.1.1.</span> <span class="nav-text">优先级反转的解决方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE"><span class="nav-number">12.2.</span> <span class="nav-text">分块查找</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dispatch-group-async"><span class="nav-number">12.2.1.</span> <span class="nav-text">dispatch_group_async</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WKWebView%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">12.3.</span> <span class="nav-text">WKWebView相关问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CocoaPods%E7%9B%B8%E5%85%B3"><span class="nav-number">12.4.</span> <span class="nav-text">CocoaPods相关</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%B0%E5%BA%95%E4%BB%80%E4%B9%88%E6%98%AF%E9%9D%99%E6%80%81%E5%BA%93-amp-%E5%8A%A8%E6%80%81%E5%BA%93%EF%BC%9F"><span class="nav-number">12.4.1.</span> <span class="nav-text">到底什么是静态库&amp;动态库？</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%A8%E7%8E%B0%E5%BD%A2%E5%BC%8F"><span class="nav-number">12.4.1.1.</span> <span class="nav-text">表现形式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B-1"><span class="nav-number">12.4.1.2.</span> <span class="nav-text">编译过程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">12.4.1.3.</span> <span class="nav-text">优点</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88use-frameworks"><span class="nav-number">12.4.2.</span> <span class="nav-text">为什么use_frameworks!</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%85%A8%E7%94%A8%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">12.4.3.</span> <span class="nav-text">为什么不全用静态库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0"><span class="nav-number">12.5.</span> <span class="nav-text">断点续传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content-x2F-Type"><span class="nav-number">12.6.</span> <span class="nav-text">Content&#x2F;Type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="nav-number">12.7.</span> <span class="nav-text">通信方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2"><span class="nav-number">12.8.</span> <span class="nav-text">字符串替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hybrid%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F-%E5%A4%9A%E6%AC%A1%E7%82%B9%E5%87%BB"><span class="nav-number">12.9.</span> <span class="nav-text">Hybrid通信方式 多次点击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-304-%E7%BC%93%E5%AD%98"><span class="nav-number">12.10.</span> <span class="nav-text">HTTP 304 缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">12.11.</span> <span class="nav-text">校验下载文件的完整性</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
