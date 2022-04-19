@@ -27,9 +27,9 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base  BitCodeLLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/832018447CAF40A186C1FF6F105BE3DF/13346">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1e40616f541a8abeccb14c8b6927642f/12439">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE7943583de020982a6159fab6e3d17f16/12407">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/macho_struct.png">
+<meta property="og:image" content="https://github.com/heng0808/heng0808.github.io/blob/master/images/objc_class_struct.png?raw=true">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80OTg5Mzk4LTMxZmE0ZTkyOTVlNTM4MDUucG5nP2ltYWdlTW9ncjIvYXV0by1vcmllbnQvc3RyaXB8aW1hZ2VWaWV3Mi8yL3cvMTIwMA?x-oss-process=image/format,png">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE69b9fb0641a5531b0900d5e3fb6611cc/13050">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE05680e64fbe9e5d4606b9150506bed24/13081">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEed50cb184a3bd914979090f6048537d4/13342">
@@ -40,10 +40,10 @@
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1932c470363d16f0b4016d86825db93b/13339">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEf2fd02cac003c369ba07e990d8548fdb/13344">
 <meta property="article:published_time" content="2022-04-19T18:15:40.000Z">
-<meta property="article:modified_time" content="2022-04-19T19:04:10.317Z">
+<meta property="article:modified_time" content="2022-04-19T19:23:14.440Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/832018447CAF40A186C1FF6F105BE3DF/13346">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/macho_struct.png">
 
 <link rel="canonical" href="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
 
@@ -192,7 +192,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-04-20 02:15:40 / Modified: 03:04:10" itemprop="dateCreated datePublished" datetime="2022-04-20T02:15:40+08:00">2022-04-20</time>
+              <time title="Created: 2022-04-20 02:15:40 / Modified: 03:23:14" itemprop="dateCreated datePublished" datetime="2022-04-20T02:15:40+08:00">2022-04-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,7 +251,7 @@
 <li>Objc</li>
 <li>initializer</li>
 </ol>
-<h4 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h4><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/832018447CAF40A186C1FF6F105BE3DF/13346" alt="image"></p>
+<h4 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h4><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/macho_struct.png" alt="image"></p>
 <h3 id="第3章-UI视图"><a href="#第3章-UI视图" class="headerlink" title="第3章 UI视图"></a>第3章 UI视图</h3><h4 id="事件传递（找到点击的View）"><a href="#事件传递（找到点击的View）" class="headerlink" title="事件传递（找到点击的View）"></a>事件传递（找到点击的View）</h4><p><code>hitTest:withEvent:</code></p>
 <p>UIApplication-&gt;UIWindow-&gt;UIViewController-&gt;UIView</p>
 <h4 id="事件响应（找到响应的View）"><a href="#事件响应（找到响应的View）" class="headerlink" title="事件响应（找到响应的View）"></a>事件响应（找到响应的View）</h4><p>UIView-&gt;UIViewController-&gt;UIWindow-&gt;UIApplication</p>
@@ -385,7 +385,7 @@ A1 --- C4(动态方法解析)</pre>
 A1[指针型isa] --> B1(isa的值代表Class的地址)
 A2[非指针型isa] --> B2(isa的值的部分代表Class的地址)</pre>
 
-<h4 id="objc-class的结构"><a href="#objc-class的结构" class="headerlink" title="objc_class的结构"></a>objc_class的结构</h4><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1e40616f541a8abeccb14c8b6927642f/12439" alt="image"></p>
+<h4 id="objc-class的结构"><a href="#objc-class的结构" class="headerlink" title="objc_class的结构"></a>objc_class的结构</h4><p><img src="https://github.com/heng0808/heng0808.github.io/blob/master/images/objc_class_struct.png?raw=true" alt="image"></p>
 <pre class="mermaid">graph LR
 A[objc_class]
 A --> isa
@@ -439,7 +439,7 @@ I --- B</pre>
 <li><strong>类对象</strong>存储实例方法列表等信息</li>
 <li><strong>元类对象</strong>存储类方法列表等信息</li>
 </ul>
-<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE7943583de020982a6159fab6e3d17f16/12407" alt="image"></p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80OTg5Mzk4LTMxZmE0ZTkyOTVlNTM4MDUucG5nP2ltYWdlTW9ncjIvYXV0by1vcmllbnQvc3RyaXB8aW1hZ2VWaWV3Mi8yL3cvMTIwMA?x-oss-process=image/format,png" alt="image"></p>
 <h4 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct objc_super &#123;</span><br><span class="line">    /// Specifies an instance of a class.</span><br><span class="line">    __unsafe_unretained _Nonnull id receiver;</span><br><span class="line">    /// Specifies the particular superclass of the instance to message. </span><br><span class="line">    __unsafe_unretained _Nonnull Class super_class;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <div id="flowchart-1" class="flow-chart"></div>
