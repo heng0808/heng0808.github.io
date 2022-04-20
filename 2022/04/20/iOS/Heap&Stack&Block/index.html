@@ -17,22 +17,22 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="12345678910class Solution:    def twoSum(self, nums, target) -&gt; List[int]:        num_map &#x3D; &amp;#123;&amp;#125;        for index in range(0, len(nums)):            num &#x3D; nums[index]            res &#x3D; targe">
+  <meta name="description" content="堆栈存储域 堆 堆的空间需要程序员手动申请，他的内存是动态分配的，需要手动管理这部分内存 栈 栈的内存是系统编译管理，跟程序员无关，他一般用来储存局部变量">
 <meta property="og:type" content="article">
-<meta property="og:title" content="两数之和">
-<meta property="og:url" content="http://example.com/2022/04/20/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/index.html">
+<meta property="og:title" content="Heap&amp;Stack&amp;Block">
+<meta property="og:url" content="http://example.com/2022/04/20/iOS/Heap&Stack&Block/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="12345678910class Solution:    def twoSum(self, nums, target) -&gt; List[int]:        num_map &#x3D; &amp;#123;&amp;#125;        for index in range(0, len(nums)):            num &#x3D; nums[index]            res &#x3D; targe">
+<meta property="og:description" content="堆栈存储域 堆 堆的空间需要程序员手动申请，他的内存是动态分配的，需要手动管理这部分内存 栈 栈的内存是系统编译管理，跟程序员无关，他一般用来储存局部变量">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-04-19T17:55:19.000Z">
-<meta property="article:modified_time" content="2022-04-19T18:03:24.432Z">
+<meta property="article:published_time" content="2022-04-20T13:35:25.000Z">
+<meta property="article:modified_time" content="2022-04-20T14:00:48.673Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2022/04/20/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">
+<link rel="canonical" href="http://example.com/2022/04/20/iOS/Heap&Stack&Block/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>两数之和 | Hexo</title>
+  <title>Heap&Stack&Block | Hexo</title>
   
 
 
@@ -79,7 +79,7 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <div class="container">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -155,7 +155,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/iOS/Heap&Stack&Block/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -168,7 +168,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          两数之和
+          Heap&Stack&Block
         </h1>
 
         <div class="post-meta">
@@ -179,7 +179,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-04-20 01:55:19 / Modified: 02:03:24" itemprop="dateCreated datePublished" datetime="2022-04-20T01:55:19+08:00">2022-04-20</time>
+              <time title="Created: 2022-04-20 21:35:25 / Modified: 22:00:48" itemprop="dateCreated datePublished" datetime="2022-04-20T21:35:25+08:00">2022-04-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -187,7 +187,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
                 </span>
             </span>
 
@@ -202,7 +202,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def twoSum(self, nums, target) -&gt; List[int]:</span><br><span class="line">        num_map = &#123;&#125;</span><br><span class="line">        for index in range(0, len(nums)):</span><br><span class="line">            num = nums[index]</span><br><span class="line">            res = target - num</span><br><span class="line">            if res in num_map:</span><br><span class="line">                return [index, num_map[res]]</span><br><span class="line">            num_map[num] = index</span><br><span class="line">        return []</span><br></pre></td></tr></table></figure>
+        <h3 id="堆栈存储域"><a href="#堆栈存储域" class="headerlink" title="堆栈存储域"></a>堆栈存储域</h3><ul>
+<li><strong>堆</strong> 堆的空间需要程序员手动申请，他的内存是动态分配的，需要手动管理这部分内存</li>
+<li><strong>栈</strong> 栈的内存是系统编译管理，跟程序员无关，他一般用来储存局部变量</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="OC中的栈对象"><a href="#OC中的栈对象" class="headerlink" title="OC中的栈对象"></a>OC中的栈对象</h3><blockquote>
+<p>“Blocks are Objective-C objects, which means they can be added to collections like NSArray or NSDictionary.”得知是对象</p>
+<p>“As an optimization, block storage starts out on the stack—just like blocks themselves do.”和“The initial allocation is done on the stack, but the runtime provides a Block_copy function which, given a block pointer, either copies the underlying block object to the heap, setting its reference count to 1 and returning the new block pointer, or (if the block object is already on the heap) increases its reference count by 1.”<br>得知Block对像与一般类的实例对象不同，初始化默认在栈上，一般类的实例对象则在堆上分配。而在 ARC 下，Block 会被拷贝到堆中。所以下面的代码只有在 ARC 下才能正确执行。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">typedef NSInteger (^blk)(NSInteger);</span><br><span class="line">blk func(NSInteger pram) &#123;</span><br><span class="line">    return ^(NSInteger count)&#123;return pram * count;&#125;;</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char * argv[]) &#123;</span><br><span class="line">    blk blk1 = func(2);</span><br><span class="line">    NSInteger result = blk1(4);</span><br><span class="line">    printf(&quot;result:%ld&quot;, result);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h3><blockquote>
+<p>GlobalBlock 没有用到外界变量或只用到全局变量、静态变量的block为_NSConcreteGlobalBlock，生命周期从创建到应用程序结束。</p>
+<p>StackBlock 只用到外部局部变量、成员属性变量，且没有强指针引用的block都是StackBlock。<br>StackBlock的生命周期由系统控制的，一旦返回之后，就被系统销毁了。</p>
+<p>MallocBlock 有强指针引用或copy修饰的成员属性引用的block会被复制一份到堆中成为MallocBlock，没有强指针引用即销毁，生命周期由程序员控制。</p>
+</blockquote>
+<hr>
+<p>Block中改变变量值有2种方式，一是传递内存地址指针到Block中，二是改变存储区方式(__block)。</p>
+<hr>
+<p>值类型：保存在线程栈上的，由系统自动释放资源</p>
+<p>引用类型：保存在托管堆中的，引用类型包括类、接口、委托和装箱值类型reference type</p>
+<hr>
+<p>总结一下在Block中改变变量值有2种方式，一是传递内存地址指针到Block中，二是改变存储区方式(__block)。</p>
+<ol>
+<li>传递内存地址</li>
+<li>__block 改变存储方式。<blockquote>
+<p>MRC环境下，只有copy，_block才会被复制到堆上，否则，_block一直都在栈上，block也只是 _NSStackBlock，这个时候_forwarding指针就只指向自己了。</p>
+</blockquote>
+<blockquote>
+<p>ARC环境下，一旦Block赋值就会触发copy，_block就会copy到堆上，Block也是_NSMallocBlock。ARC环境下也是存在_NSStackBlock的时候，这种情况下，_block就在栈上</p>
+</blockquote>
+</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://halfrost.com/ios_block/">深入研究 Block 捕获外部变量和 __block 实现原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/100mango/zen/blob/master/Objective-C%20%E6%8B%BE%E9%81%97%EF%BC%9A%E4%BB%8EHeap%20and%20Stack%E5%88%B0Block%20/Objective-C%20%E6%8B%BE%E9%81%97%EF%BC%9A%E4%BB%8EHeap%20and%20Stack%E5%88%B0Block%20.md">Objective-C 拾遗：从Heap and Stack到Block</a></p>
+
     </div>
 
     
@@ -217,13 +253,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/20/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
+    <a href="/2022/04/20/iOS/Effective-Objective-C-2-0/" rel="prev" title="Effective Objective-C 2.0">
+      <i class="fa fa-chevron-left"></i> Effective Objective-C 2.0
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" rel="next" title="iOS知识点总结">
-      iOS知识点总结 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -282,6 +315,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%A0%88%E5%AD%98%E5%82%A8%E5%9F%9F"><span class="nav-number">1.</span> <span class="nav-text">堆栈存储域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OC%E4%B8%AD%E7%9A%84%E6%A0%88%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">OC中的栈对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Block"><span class="nav-number">3.</span> <span class="nav-text">Block</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -295,7 +329,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -353,12 +387,8 @@
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
 
 
 <script src="/js/schemes/pisces.js"></script>

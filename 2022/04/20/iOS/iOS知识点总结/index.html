@@ -17,35 +17,36 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base  BitCodeLLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是">
+  <meta name="description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS知识点总结">
-<meta property="og:url" content="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:url" content="http://example.com/2022/04/20/iOS/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base  BitCodeLLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是">
+<meta property="og:description" content="第0章 写在前面最好下载并可编译以下源码 libdispatch objc4 gnustep-base">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/macho_struct.png">
-<meta property="og:image" content="https://github.com/heng0808/heng0808.github.io/blob/master/images/objc_class_struct.png?raw=true">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_macho_struct.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_objcClass_struct.png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80OTg5Mzk4LTMxZmE0ZTkyOTVlNTM4MDUucG5nP2ltYWdlTW9ncjIvYXV0by1vcmllbnQvc3RyaXB8aW1hZ2VWaWV3Mi8yL3cvMTIwMA?x-oss-process=image/format,png">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE69b9fb0641a5531b0900d5e3fb6611cc/13050">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE05680e64fbe9e5d4606b9150506bed24/13081">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEed50cb184a3bd914979090f6048537d4/13342">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_memory.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_autoreleasePoolPage_memory.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_block_struct.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_block_copy.png">
 <meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg">
 <meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/custominputsource.jpg">
-<meta property="og:image" content="https://image.fundebug.com/2019-03-21-01.png">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEc4d812ed27343d5f90304079d6e85799/13338">
-<meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1932c470363d16f0b4016d86825db93b/13339">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_osi_model.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_udp_struct.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_tcp_struct.png">
 <meta property="og:image" content="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEf2fd02cac003c369ba07e990d8548fdb/13344">
 <meta property="article:published_time" content="2022-04-19T18:15:40.000Z">
-<meta property="article:modified_time" content="2022-04-19T19:23:14.440Z">
+<meta property="article:modified_time" content="2022-04-20T13:30:33.740Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/macho_struct.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_macho_struct.png">
 
-<link rel="canonical" href="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+<link rel="canonical" href="http://example.com/2022/04/20/iOS/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
 
 
 <script id="page-configurations">
@@ -92,7 +93,7 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <div class="container">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -168,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/iOS/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -192,7 +193,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-04-20 02:15:40 / Modified: 03:23:14" itemprop="dateCreated datePublished" datetime="2022-04-20T02:15:40+08:00">2022-04-20</time>
+              <time title="Created: 2022-04-20 02:15:40 / Modified: 21:30:33" itemprop="dateCreated datePublished" datetime="2022-04-20T02:15:40+08:00">2022-04-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,6 +221,8 @@
 <li>objc4</li>
 <li>gnustep-base</li>
 </ul>
+<span id="more"></span>
+
 <h4 id="BitCode"><a href="#BitCode" class="headerlink" title="BitCode"></a>BitCode</h4><p>LLVM是目前苹果采用的编译器工具链,Bitcode是LLVM编译器的中间代码的一种编码,LLVM的前端可以理解为C&#x2F;C++&#x2F;OC&#x2F;Swift等编程语言,LLVM的后端可以理解为各个芯片平台上的汇编指令或者可执行机器指令数据,那么,BitCode就是位于这两者直接的中间码. LLVM的编译工作原理是前端负责把项目程序源代码翻译成Bitcode中间码,然后再根据不同目标机器芯片平台转换为相应的汇编指令以及翻译为机器码.这样设计就可以让LLVM成为了一个编译器架构,可以轻而易举的在LLVM架构之上发明新的语言(前端),以及在LLVM架构下面支持新的CPU(后端)指令输出,虽然Bitcode仅仅只是一个中间码不能在任何平台上运行,但是它可以转化为任何被支持的CPU架构,包括现在还没被发明的CPU架构,也就是说现在打开Bitcode功能提交一个App到应用商店,以后如果苹果新出了一款手机并CPU也是全新设计的,在苹果后台服务器一样可以从这个App的Bitcode开始编译转化为新CPU上的可执行程序,可供新手机用户下载运行这个App.</p>
 <p>但是bitcode给开发者带来的不便之处就是: 没用bitcode之前,当应用程序奔溃后,开发者可以根据获取的的奔溃日志再配上上传到苹果服务器的二进制文件的调试符号表信息可以还原程序运行过程到奔溃时后调用栈信息,对问题进行定位排查.但是用了bitcode之后,用户安装的二进制不是开发者这边生成的,而是苹果服务器经过优化后生成的,其对应的调试符号信息丢失了,也就无法进行前面说的还原奔溃现场找原因了.</p>
 <h4 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h4><p><code>iOS</code> 编译采用 <code>Clang</code> 作为编译器前端，<code>LLVM</code> 作为编译器后端，编译器前端负责语法分析，语义分析，生成生成中间码 <code>(LLVM IR)</code>，在这个过程中，会进行类型检查，如果发现错误或者警告会标注出来在哪一行；编译器后端会进行机器无关的代码优化，生成机器语言，并且进行机器相关的代码优化。</p>
@@ -251,7 +254,7 @@
 <li>Objc</li>
 <li>initializer</li>
 </ol>
-<h4 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h4><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/macho_struct.png" alt="image"></p>
+<h4 id="Mach-O"><a href="#Mach-O" class="headerlink" title="Mach-O"></a>Mach-O</h4><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_macho_struct.png" alt="image"></p>
 <h3 id="第3章-UI视图"><a href="#第3章-UI视图" class="headerlink" title="第3章 UI视图"></a>第3章 UI视图</h3><h4 id="事件传递（找到点击的View）"><a href="#事件传递（找到点击的View）" class="headerlink" title="事件传递（找到点击的View）"></a>事件传递（找到点击的View）</h4><p><code>hitTest:withEvent:</code></p>
 <p>UIApplication-&gt;UIWindow-&gt;UIViewController-&gt;UIView</p>
 <h4 id="事件响应（找到响应的View）"><a href="#事件响应（找到响应的View）" class="headerlink" title="事件响应（找到响应的View）"></a>事件响应（找到响应的View）</h4><p>UIView-&gt;UIViewController-&gt;UIWindow-&gt;UIApplication</p>
@@ -385,7 +388,7 @@ A1 --- C4(动态方法解析)</pre>
 A1[指针型isa] --> B1(isa的值代表Class的地址)
 A2[非指针型isa] --> B2(isa的值的部分代表Class的地址)</pre>
 
-<h4 id="objc-class的结构"><a href="#objc-class的结构" class="headerlink" title="objc_class的结构"></a>objc_class的结构</h4><p><img src="https://github.com/heng0808/heng0808.github.io/blob/master/images/objc_class_struct.png?raw=true" alt="image"></p>
+<h4 id="objc-class的结构"><a href="#objc-class的结构" class="headerlink" title="objc_class的结构"></a>objc_class的结构</h4><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_objcClass_struct.png" alt="image"></p>
 <pre class="mermaid">graph LR
 A[objc_class]
 A --> isa
@@ -435,9 +438,12 @@ G --- B[struct method_t]
 H --- B
 I --- B</pre>
 
-<h4 id="对象、类对象、元类对象"><a href="#对象、类对象、元类对象" class="headerlink" title="对象、类对象、元类对象"></a>对象、类对象、元类对象</h4><ul>
+<h4 id="对象、类对象、元类对象"><a href="#对象、类对象、元类对象" class="headerlink" title="对象、类对象、元类对象"></a>对象、类对象、元类对象</h4><p>类对象和原类对象是一个类型，不过地址不一样，所代表的含义也不同</p>
+<ul>
 <li><strong>类对象</strong>存储实例方法列表等信息</li>
 <li><strong>元类对象</strong>存储类方法列表等信息</li>
+<li>同类型实例的isa、metaClass、rootClass都是相同的</li>
+<li>不同类型的实例只有根类是相同的NSObject</li>
 </ul>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy80OTg5Mzk4LTMxZmE0ZTkyOTVlNTM4MDUucG5nP2ltYWdlTW9ncjIvYXV0by1vcmllbnQvc3RyaXB8aW1hZ2VWaWV3Mi8yL3cvMTIwMA?x-oss-process=image/format,png" alt="image"></p>
 <h4 id="消息传递"><a href="#消息传递" class="headerlink" title="消息传递"></a>消息传递</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct objc_super &#123;</span><br><span class="line">    /// Specifies an instance of a class.</span><br><span class="line">    __unsafe_unretained _Nonnull id receiver;</span><br><span class="line">    /// Specifies the particular superclass of the instance to message. </span><br><span class="line">    __unsafe_unretained _Nonnull Class super_class;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -475,7 +481,7 @@ I --- B</pre>
     H[数据结构] --- A((内存管理)) 
     I[ARC & MRC] --- A((内存管理))</pre>
 
-<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE69b9fb0641a5531b0900d5e3fb6611cc/13050" alt="image"></p>
+<p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_memory.jpg" alt="image"></p>
 <h4 id="对象内存大小"><a href="#对象内存大小" class="headerlink" title="对象内存大小"></a>对象内存大小</h4><ul>
 <li>内存对齐：最大指针的整数倍</li>
 <li>iOS按16、32、48… 16的整数倍来取大小</li>
@@ -493,7 +499,8 @@ I --- B</pre>
 <li><strong>39</strong>位标记对象是否有SideTable结构用于存储引用计数 <code>has_sidetable_rc</code></li>
 <li><strong>40~63</strong>位标记对象的引用计数 extrac_rc</li>
 </ol>
-<h5 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h5><pre class="mermaid">graph BT
+<h5 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h5><p>SideTables全局只有一个通过<code>static StripedMap&lt;SideTable&gt;&amp; SideTables()</code>获取</p>
+<pre class="mermaid">graph BT
     subgraph SideTables
         A[SideTable2]
         B[SideTable3]
@@ -595,7 +602,7 @@ I --- B</pre>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class AutoreleasePoolPage &#123;</span><br><span class="line">    magic_t const magic;</span><br><span class="line">    id *next;</span><br><span class="line">    pthread_t const thread;</span><br><span class="line">    AutoreleasePoolPage * const parent;</span><br><span class="line">    AutoreleasePoolPage *child;</span><br><span class="line">    uint32_t const depth;</span><br><span class="line">    uint32_t hiwat;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE05680e64fbe9e5d4606b9150506bed24/13081" alt="image"></p>
+<p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_autoreleasePoolPage_memory.png" alt="image"></p>
 <ul>
 <li><code>objc_autoreleasePoolPush</code>会传入一个哨兵对象（POOL_SENTINEL），其值为nil</li>
 <li>在往Page里添加新元素时都会进行一下三种判断</li>
@@ -640,6 +647,7 @@ D --> A</pre>
 <h3 id="第7章-Block"><a href="#第7章-Block" class="headerlink" title="第7章 Block"></a>第7章 Block</h3><h4 id="什么是Block"><a href="#什么是Block" class="headerlink" title="什么是Block"></a>什么是Block</h4><ul>
 <li><strong>Block</strong>是将<strong>函数</strong>及其<strong>上下文</strong>封装起来的<strong>对象</strong></li>
 </ul>
+<p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_block_struct.png" alt="image"></p>
 <h4 id="全局变量-amp-静态全局变量区别"><a href="#全局变量-amp-静态全局变量区别" class="headerlink" title="全局变量&amp;静态全局变量区别"></a>全局变量&amp;静态全局变量区别</h4><h4 id="截获变量"><a href="#截获变量" class="headerlink" title="截获变量"></a>截获变量</h4><ul>
 <li>对于<strong>基本数据</strong>类型的<strong>局部变量</strong>截获其值</li>
 <li>对于<strong>对象</strong>类型的局部变量<strong>连同所有权修饰符</strong>一起截获</li>
@@ -692,7 +700,7 @@ D --> A</pre>
 </tr>
 </tbody></table>
 <p>栈Block copy后Block及其**__block<strong>修饰的变量都会在堆上复制一份，并且栈上</strong>__block<strong>中</strong>fowarding**指针指向堆__block，这样可以保证无论怎么操作访问的变量是同一个</p>
-<p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEed50cb184a3bd914979090f6048537d4/13342" alt="image"></p>
+<p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_block_copy.png" alt="image"></p>
 <h3 id="第8章-多线程"><a href="#第8章-多线程" class="headerlink" title="第8章 多线程"></a>第8章 多线程</h3><pre class="mermaid">graph LR
     A(多线程) --> B[GCD]
     A --> C[NSOperation]
@@ -832,7 +840,7 @@ D --> A</pre>
 <li>A handler routine to perform requests sent by any clients.（收到消息的回调）</li>
 <li>A cancellation routine to invalidate your input source.（取消订阅的回调）</li>
 </ul>
-<h3 id="第10章-网络"><a href="#第10章-网络" class="headerlink" title="第10章 网络"></a>第10章 网络</h3><p><img src="https://image.fundebug.com/2019-03-21-01.png" alt="image"></p>
+<h3 id="第10章-网络"><a href="#第10章-网络" class="headerlink" title="第10章 网络"></a>第10章 网络</h3><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_osi_model.png" alt="image"></p>
 <h4 id="HTTP的请求方式"><a href="#HTTP的请求方式" class="headerlink" title="HTTP的请求方式"></a>HTTP的请求方式</h4><table>
 <thead>
 <tr>
@@ -957,7 +965,7 @@ D --> A</pre>
     Client->>Server: master secret加密</pre>
 
 <h4 id="UDP（用户数据报协议）"><a href="#UDP（用户数据报协议）" class="headerlink" title="UDP（用户数据报协议）"></a>UDP（用户数据报协议）</h4><p>UDP是不具有可靠性的数据报协议。在UDP的情况下，虽然可以确保发送消息的大小，对应用层交下来的报文，不合并，不拆分，只是在其上面加上首部后就交给了下面的网络层，但是不能保证消息一定会到达。因此，应用需要根据自己的需要进行重发处理</p>
-<h5 id="首部格式"><a href="#首部格式" class="headerlink" title="首部格式"></a>首部格式</h5><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCEc4d812ed27343d5f90304079d6e85799/13338" alt="image"></p>
+<h5 id="首部格式"><a href="#首部格式" class="headerlink" title="首部格式"></a>首部格式</h5><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_udp_struct.png" alt="image"></p>
 <h5 id="特点-2"><a href="#特点-2" class="headerlink" title="特点"></a>特点</h5><ul>
 <li>无连接</li>
 <li>尽最大努力交付</li>
@@ -970,7 +978,7 @@ D --> A</pre>
 </ul>
 <h4 id="TCP（传输控制协议）"><a href="#TCP（传输控制协议）" class="headerlink" title="TCP（传输控制协议）"></a>TCP（传输控制协议）</h4><p>TCP是面向连接的、可靠的流协议。</p>
 <p>TCP通过确认应答、重发控制、连接管理、拥塞控制以及窗口控制等机制实现可靠传输。</p>
-<h5 id="首部格式-1"><a href="#首部格式-1" class="headerlink" title="首部格式"></a>首部格式</h5><p><img src="https://note.youdao.com/yws/public/resource/ca7cfea2fe6d2c7b94d376efa3fe4d83/xmlnote/WEBRESOURCE1932c470363d16f0b4016d86825db93b/13339" alt="image"></p>
+<h5 id="首部格式-1"><a href="#首部格式-1" class="headerlink" title="首部格式"></a>首部格式</h5><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_tcp_struct.png" alt="image"></p>
 <h5 id="特点-3"><a href="#特点-3" class="headerlink" title="特点"></a>特点</h5><ul>
 <li>面向连接</li>
 <li>可靠传输</li>
@@ -1386,10 +1394,13 @@ B(yes,right)->F->G</textarea><textarea id="flowchart-8-options" style="display: 
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/20/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" rel="prev" title="两数之和">
+    <a href="/2022/04/20/Leetcode/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/" rel="prev" title="两数之和">
       <i class="fa fa-chevron-left"></i> 两数之和
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/20/iOS/Effective-Objective-C-2-0/" rel="next" title="Effective Objective-C 2.0">
+      Effective Objective-C 2.0 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -1462,7 +1473,7 @@ B(yes,right)->F->G</textarea><textarea id="flowchart-8-options" style="display: 
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1520,12 +1531,8 @@ B(yes,right)->F->G</textarea><textarea id="flowchart-8-options" style="display: 
 
   
   <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
 
 
 <script src="/js/schemes/pisces.js"></script>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Effective Objective-C 2.0这本本应该早早就看，最近面试了几家公司，发现很多问题都是出自这里。这本书对于翻译方法稍有欠缺，内容也没那么深入，但是对于日场开发避免一些坑还是有很好的帮助的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Objective-C 2.0">
+<meta property="og:url" content="http://example.com/2022/04/20/iOS/Effective-Objective-C-2-0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Effective Objective-C 2.0这本本应该早早就看，最近面试了几家公司，发现很多问题都是出自这里。这本书对于翻译方法稍有欠缺，内容也没那么深入，但是对于日场开发避免一些坑还是有很好的帮助的。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_message_forwarding.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_targetPointer_length1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_targetPointer_length2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_block_struct.png">
+<meta property="article:published_time" content="2022-04-20T02:55:36.000Z">
+<meta property="article:modified_time" content="2022-04-20T13:30:33.738Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_message_forwarding.png">
+
+<link rel="canonical" href="http://example.com/2022/04/20/iOS/Effective-Objective-C-2-0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Effective Objective-C 2.0 | Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/iOS/Effective-Objective-C-2-0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Effective Objective-C 2.0
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-04-20 10:55:36 / Modified: 21:30:33" itemprop="dateCreated datePublished" datetime="2022-04-20T10:55:36+08:00">2022-04-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">Effective Objective-C 2.0这本本应该早早就看，最近面试了几家公司，发现很多问题都是出自这里。这本书对于翻译方法稍有欠缺，内容也没那么深入，但是对于日场开发避免一些坑还是有很好的帮助的。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第一章-熟悉Objective-C"><a href="#第一章-熟悉Objective-C" class="headerlink" title="第一章 熟悉Objective-C"></a>第一章 熟悉Objective-C</h2><h3 id="1、了解Objective-C的起源"><a href="#1、了解Objective-C的起源" class="headerlink" title="1、了解Objective-C的起源"></a>1、了解Objective-C的起源</h3><p>源至Smalltalk</p>
+<p>消息机制</p>
+<ul>
+<li>消息结构语言由运行环境决定</li>
+<li>函数调用语言由编译器决定</li>
+</ul>
+<h3 id="2、在类文件头文件中尽量少引用其他文件"><a href="#2、在类文件头文件中尽量少引用其他文件" class="headerlink" title="2、在类文件头文件中尽量少引用其他文件"></a>2、在类文件头文件中尽量少引用其他文件</h3><p><code>@class</code>：向前声明</p>
+<p>将引入文件尽量延后，如果都在头文件中引入，将增加编译时间</p>
+<p><code>向前声明</code>也可以解决循环引用的问</p>
+<h3 id="3、多用字面量方法，少用与之等价的方法"><a href="#3、多用字面量方法，少用与之等价的方法" class="headerlink" title="3、多用字面量方法，少用与之等价的方法"></a>3、多用字面量方法，少用与之等价的方法</h3><ol>
+<li>缩减代码长度，使之更为易读</li>
+<li>字面量方法实际上使一种语法糖</li>
+</ol>
+<blockquote>
+<p>语法糖也称为<code>语法糖衣</code>，是计算机中与另一套语法相同的一种写法</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">NSObject *obj1 = [NSObject new];</span><br><span class="line">NSObject *obj2 = nil;</span><br><span class="line">NSArray *arr1 = [NSArray arrayWithObjects:obj1, obj2, nil];</span><br><span class="line">NSArray *arr2 = @[obj1, obj2];</span><br><span class="line">NSDictionary *dic = @&#123;</span><br><span class="line">    @&quot;obj1&quot;: obj1,</span><br><span class="line">    @&quot;obj2&quot;: obj2</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>数组第一种写法不会崩溃，会依次插入变量，直到第一个变量为nil<br>数组第二个会报异常<br>字典字面量方法会报异常</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSString *str = @&quot;123&quot;;</span><br><span class="line">NSNumber *intNum = @1;</span><br><span class="line">NSNumber *floatNum = @2.3f;</span><br><span class="line">NSNumber *doubleNum = @2.345679;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、多用类常量，少用-define"><a href="#4、多用类常量，少用-define" class="headerlink" title="4、多用类常量，少用#define"></a>4、多用类常量，少用#define</h3><p><code>全局符号表</code></p>
+<ul>
+<li>不要使用预处理指令定义常量。这样定义出来的常量不含有类型信息，编译器只是会在编译前据此执行查找与替换操作。即使有人重新定义了常量值，编译器也不会产生警告信息</li>
+<li>在实现文件中使用<code>static const</code>来定义“只在编译单元内可见的产量”。由于此类常量不在全局符号表中，所以无须为其名称加前缀。</li>
+<li>在头文件中使用extern来声明全局常量，并在相关实现文件中定义其值。这种常量要出现在全局符号表中，所以其名称应加以区隔，通常用与之香港的类名称做前缀。</li>
+</ul>
+<h3 id="5、用枚举表示选项、状态、状态码"><a href="#5、用枚举表示选项、状态、状态码" class="headerlink" title="5、用枚举表示选项、状态、状态码"></a>5、用枚举表示选项、状态、状态码</h3><p>实现枚举所用的类型取决于编译器</p>
+<p>Foundation定义了一些辅助宏，能添加类型，并具有向后兼容的能力</p>
+<p>在C++编译模式中<code>NS_OPTION</code>比<code>NS_ENUM</code>在宏定义中具有显示转换类型的能力</p>
+<h2 id="第二章-对象、消息、运行期"><a href="#第二章-对象、消息、运行期" class="headerlink" title="第二章 对象、消息、运行期"></a>第二章 对象、消息、运行期</h2><h3 id="6、理解属性这一概念"><a href="#6、理解属性这一概念" class="headerlink" title="6、理解属性这一概念"></a>6、理解属性这一概念</h3><p><code>noatomic</code>不能使用<code>同步锁</code></p>
+<h3 id="7、在对象内部尽量直接使用实例变量"><a href="#7、在对象内部尽量直接使用实例变量" class="headerlink" title="7、在对象内部尽量直接使用实例变量"></a>7、在对象内部尽量直接使用实例变量</h3><ul>
+<li>在对象内部读取数据时，应该直接通过实例变量来读，而写入数据时，这应该通过属性来写</li>
+<li>初始化方法以及dealloc方法中，总是应该直接通过实例变量来读写数据</li>
+<li>有时会使用惰性初始化技术来配置某分数据，这种情况下，要通过属性来读取数据</li>
+</ul>
+<h3 id="8、理解对象“等同性”这一概念"><a href="#8、理解对象“等同性”这一概念" class="headerlink" title="8、理解对象“等同性”这一概念"></a>8、理解对象“等同性”这一概念</h3><p>NSObject协议中有个两个判断对象等同的关键方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isEqual:(id)object;</span><br><span class="line">- (NSUInteger)hash;</span><br></pre></td></tr></table></figure>
+<h3 id="9、以“类簇模式”隐藏实现细节"><a href="#9、以“类簇模式”隐藏实现细节" class="headerlink" title="9、以“类簇模式”隐藏实现细节"></a>9、以“类簇模式”隐藏实现细节</h3><p><code>工厂模式</code>是创建类簇的方式之一</p>
+<h3 id="10、在既有对象中关联对象存储自定义属性"><a href="#10、在既有对象中关联对象存储自定义属性" class="headerlink" title="10、在既有对象中关联对象存储自定义属性"></a>10、在既有对象中关联对象存储自定义属性</h3><ul>
+<li>可以通过<code>关联对象</code>机制来把两个对象连起来</li>
+<li>定义关联对象时可指定内存管理语义，用以模仿定义属性时所采用的<code>拥有关系</code>与<code>非拥有关系</code></li>
+<li>只有在其他做法不可行时才应选用关联对象，因为这种做法通常会引入难以查找的bug</li>
+</ul>
+<h3 id="11、理解objc-msgSend的作用"><a href="#11、理解objc-msgSend的作用" class="headerlink" title="11、理解objc_msgSend的作用"></a>11、理解objc_msgSend的作用</h3><ul>
+<li>消息由接受者、选择子以及参数构成。给某个对象“发送消息”也就相当于在该对象上“调用方法”</li>
+<li>发给某个对象的全部消息要由“动态消息派发系统”来处理，该系统会查出对应的方法，并执行其代码</li>
+</ul>
+<h3 id="12、理解消息转发机制"><a href="#12、理解消息转发机制" class="headerlink" title="12、理解消息转发机制"></a>12、理解消息转发机制</h3><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_message_forwarding.png" alt="image"></p>
+<h3 id="理解“类对象”的用意"><a href="#理解“类对象”的用意" class="headerlink" title="理解“类对象”的用意"></a>理解“类对象”的用意</h3><p><code>isMemberOfClass</code>能判断对象是否为某个特定类的实例</p>
+<p><code>isKindOfClass</code>能判断对象使否为某个类或者该类的派生类的实例</p>
+<ul>
+<li>尽量使用类型信息查询方法来确认对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发</li>
+</ul>
+<h3 id="13、用方法调配技术调试黑盒方法"><a href="#13、用方法调配技术调试黑盒方法" class="headerlink" title="13、用方法调配技术调试黑盒方法"></a>13、用<code>方法调配技术</code>调试<code>黑盒方法</code></h3><ul>
+<li>使用另一份实现来替换原有的实现，这道工序叫做<code>方法调配</code>，开发者常用此技术向原有的方法添加新功能</li>
+<li>一般来说，只有在方法调试的时候才用此技术替换原有方法，此技术不宜滥用</li>
+</ul>
+<h3 id="14、理解类对象的用意"><a href="#14、理解类对象的用意" class="headerlink" title="14、理解类对象的用意"></a>14、理解<code>类对象</code>的用意</h3><ul>
+<li>每个实例都有一个指向<code>Class</code>的对象指针，用以表明其类型，而这些<code>Class</code>对象则构成了类的继承关系</li>
+<li>如果对象类型无法在编译期确定，那么就应该使用类型信息查询方法类探知</li>
+<li>尽量使用类型信息查询方法来确定对象类型，而不要直接比较类对象，因为某些对象可能实现了消息转发功能</li>
+</ul>
+<h2 id="第三章-接口与Api设计"><a href="#第三章-接口与Api设计" class="headerlink" title="第三章 接口与Api设计"></a>第三章 接口与Api设计</h2><h3 id="15、用前缀避免命名空间冲突"><a href="#15、用前缀避免命名空间冲突" class="headerlink" title="15、用前缀避免命名空间冲突"></a>15、用前缀避免命名空间冲突</h3><ul>
+<li>选择与你公司、应用程序或者二进制皆有关联之名称作类名的前缀，并在所有代码中均使用这一前缀</li>
+<li>若自己所开发的程序库中用到了第三方库，则应为其中的名称加上前缀</li>
+</ul>
+<h3 id="16、提供全能初始化方法"><a href="#16、提供全能初始化方法" class="headerlink" title="16、提供全能初始化方法"></a>16、提供全能初始化方法</h3><ul>
+<li>在类中提供一个全能的初始化方法，并于文档里指名。其他的初始化方法均应调用此方法</li>
+<li>若全能初始化方法与超类不同，则需要覆写超类中的对应方法</li>
+<li>如果超类的初始化方法不适用于子类，那么应该覆写这个超类方法，并在其中抛出异常</li>
+</ul>
+<h3 id="17、实现description方法"><a href="#17、实现description方法" class="headerlink" title="17、实现description方法"></a>17、实现<code>description</code>方法</h3><ul>
+<li>实现<code>description</code>方法返回一个有意义的字符串，用以描述实例</li>
+<li>若想在调试时打印出更消息的对象描述信息，则应实现<code>debugDescription</code></li>
+</ul>
+<h3 id="18、尽量使用不可变对象"><a href="#18、尽量使用不可变对象" class="headerlink" title="18、尽量使用不可变对象"></a>18、尽量使用不可变对象</h3><ul>
+<li>尽量创建不可变的对象</li>
+<li>若某属性仅可用于对象的内部修改</li>
+<li>则应该在“class-continuation分类”中将其由<code>readonly</code>属性扩展为<code>readwrite</code>属性</li>
+<li>不要把不可变的<code>collection</code>作为属性公开，而应该提供相关方法，以此修改对象中的可变<code>collection</code></li>
+</ul>
+<h3 id="19、使用清晰而协调的命名方式"><a href="#19、使用清晰而协调的命名方式" class="headerlink" title="19、使用清晰而协调的命名方式"></a>19、使用清晰而协调的命名方式</h3><ul>
+<li>起名时应遵循标准的Objective-C命名规范，这样创建出来的接口更容易为开发者所理解</li>
+<li>方法名要言简意赅，从左至右读起来要像个日常用语中的句子才好</li>
+<li>方法名里不要使用缩略后的类型名称</li>
+<li>给方法起名时的第一要务就是确保其风格与自己的代码或所要集成的框架相符</li>
+</ul>
+<h3 id="20、为私有方法名加前缀"><a href="#20、为私有方法名加前缀" class="headerlink" title="20、为私有方法名加前缀"></a>20、为私有方法名加前缀</h3><ul>
+<li>给私有方法的名称加上前缀，这样可以很容易地将其同公共方法区分开</li>
+<li>不要单用一个下划线做私有方法的前缀，因为这种做法是预留给苹果公司用的</li>
+</ul>
+<h3 id="21、理解Objective-C错误模型"><a href="#21、理解Objective-C错误模型" class="headerlink" title="21、理解Objective-C错误模型"></a>21、理解Objective-C错误模型</h3><ul>
+<li>只有发生了可使整个应用程序崩溃的严重错误时，才应使用异常</li>
+<li>在错误不那么严重的情况下，可以指派<code>委托方法</code>来处理错误，也可以把错误信息放在NSError对象里，经由“输出参数”返回给调用者</li>
+</ul>
+<h3 id="22、理解NSCopying协议"><a href="#22、理解NSCopying协议" class="headerlink" title="22、理解NSCopying协议"></a>22、理解NSCopying协议</h3><ul>
+<li>若想令自己所写的对象具有拷贝功能，则需实现NSCopying协议</li>
+<li>如果自定义的对象分为可变版本与不可变版本，那么就要同时实现NSCopying与NSMutableCopying协议</li>
+<li>复制对象时需要决定采用浅拷贝还是深拷贝，一般情况下应该尽量执行浅浅拷贝</li>
+<li>如果你所写的对象需要深拷贝，那么可以考虑新增一个专门执行浅拷贝的方法</li>
+</ul>
+<h2 id="第四章-协议与分类"><a href="#第四章-协议与分类" class="headerlink" title="第四章 协议与分类"></a>第四章 协议与分类</h2><h3 id="23、通过委托与数据源协议进行对象间通信"><a href="#23、通过委托与数据源协议进行对象间通信" class="headerlink" title="23、通过委托与数据源协议进行对象间通信"></a>23、通过委托与数据源协议进行对象间通信</h3><ul>
+<li>委托模式为对象提供了一套接口，使其可由此将相关时间告知其他对象</li>
+<li>将委托对象应该支持的接口定义成协议，在协议中把可能需要处理的事件定义成方法</li>
+<li>当某对象需要从另外一个对象中获取数据时，可以使用委托模式。这种情景下，该模式亦称“数据源协议”</li>
+<li>若有必要，则可实现环游位段的结构体，将委托对象是否能响应相关协议方法这一信息缓存至其中</li>
+</ul>
+<h3 id="24、将类的实现代码分散到便于管理的各个分类中"><a href="#24、将类的实现代码分散到便于管理的各个分类中" class="headerlink" title="24、将类的实现代码分散到便于管理的各个分类中"></a>24、将类的实现代码分散到便于管理的各个分类中</h3><p>各个分类代码都实现在主类中</p>
+<ul>
+<li>使用分类机制把类的实现代码划分成易于管理的小块</li>
+<li>将应该视为“私有”的方法归入名叫<code>Private</code>的分类中，以隐藏实现细节</li>
+</ul>
+<h3 id="25、总是为第三方分类的名称加前缀"><a href="#25、总是为第三方分类的名称加前缀" class="headerlink" title="25、总是为第三方分类的名称加前缀"></a>25、总是为第三方分类的名称加前缀</h3><ul>
+<li>向第三方类中添加分类时，总应给其名称加上你专用的前缀</li>
+<li>向第三方类中添加分类时，总应给其中的方法加上你专用的前缀</li>
+</ul>
+<h3 id="26、勿在分类中声明属性"><a href="#26、勿在分类中声明属性" class="headerlink" title="26、勿在分类中声明属性"></a>26、勿在分类中声明属性</h3><ul>
+<li>把封装数据所用的全部属性都定义在主接口里</li>
+<li>在“class-continuation分类”之外的其他分类中，可以定义存取方法，但尽量不要定义属性</li>
+</ul>
+<h3 id="27、使用class-continuation隐藏实现细节"><a href="#27、使用class-continuation隐藏实现细节" class="headerlink" title="27、使用class-continuation隐藏实现细节"></a>27、使用<code>class-continuation</code>隐藏实现细节</h3><ul>
+<li>通过“class-continuation分类”向类中新增加实例变量</li>
+<li>如果某属性在主接口中声明为“只读”，而分类的内部定义又要用设置方法修改此属性，那么就在“class-continuation分类”中将其扩展为“可读写”</li>
+<li>把私有方法的原型声明在“class-continuation分类”里面</li>
+<li>若想使类所遵循的协议不为人所知，则可于“class-continuation分类”中声明</li>
+</ul>
+<h3 id="28、通过协议提供匿名对象"><a href="#28、通过协议提供匿名对象" class="headerlink" title="28、通过协议提供匿名对象"></a>28、通过协议提供匿名对象</h3><ul>
+<li>协议可在某种程度上提供匿名类型。具体的对象类型可以淡化成遵从某协议的id类型，协议里规定了对象所应实现的方法</li>
+<li>使用匿名对象来隐藏类型名称（或类名）</li>
+<li>如果具体类型不重要，重要的使对象能够响应（定义在协议里的）特定方法，那么可使用匿名对象来表示</li>
+</ul>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h3 id="29、理解引用计数"><a href="#29、理解引用计数" class="headerlink" title="29、理解引用计数"></a>29、理解引用计数</h3><ul>
+<li>Retain 递增引用计数</li>
+<li>Release 递减引用计数 </li>
+<li>autorelease 待稍后清理“自动释放池”时，在递增引用计数</li>
+</ul>
+<p><code>retainCount</code>查看引用计数，此方法不太有用，即便在调试时也如此</p>
+<blockquote>
+<p>官方文档：调试内存管理问题时调用该方法是没有任何意义的。因为保不准Cocoa framework中的其它对象会retain我们的目标对象，还有对于autorelease pool中的延迟释放对象，调用这个方法也得不到有用的信息。</p>
+</blockquote>
+<p>对象创建出来，引用计数至少为<code>1</code></p>
+<p>当对象的引用计数为<code>0</code>的时候，对象就内存就回收了（deallocated），系统将对象占用的内容标记为<code>reuse</code>，所有指向该内存的指针都会无效。</p>
+<p>如果调用release后，基于某些原因，其引用计数降至0，那么对象所占内存也许会回收，这样的话，再使用该对象可能就将使程序崩溃了。这里只说“可能”，而没说“一定” ，因为对象所占用的内存再“接触分配”之后，只是放回“可用内存池”。如果使用该对象的时尚未覆写该对象内存，那么该对象仍然有效，这时程序不会崩溃。由此可见：过早的释放对象而导致的bug很难调试</p>
+<p>为避免这种情况，一般调用了release后都会清空指针。这样能保证不会出现可能指向无效对象的指针，这种指针通常被称为“悬挂指针”。比方说，可以这样编写代码防止此情况发生：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSNumber *number = [[NSNumber alloc] init];</span><br><span class="line">[arrary addObject:number];</span><br><span class="line">[number release];</span><br><span class="line">number = nil;</span><br></pre></td></tr></table></figure>
+
+<h4 id="属性存取方法的内存管理"><a href="#属性存取方法的内存管理" class="headerlink" title="属性存取方法的内存管理"></a>属性存取方法的内存管理</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)setFoo:(id)foo &#123;</span><br><span class="line">    [foo retain];</span><br><span class="line">    [_foo release];</span><br><span class="line">    _foo = foo;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动释放池"><a href="#自动释放池" class="headerlink" title="自动释放池"></a>自动释放池</h4><p>在Objective-C的引用计架构中，自动释放池时一项重要的特性。调用release会立刻递减对象的引用计数（而且还有可能令系统回收此对象），然而有时候可以不掉用他，改为<code>autorelease</code>，此方法会在稍候递减计数，通常时下一次“事件循环”时递减，不过也可能执行的更早（参见第34条）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (NSString *)stringValue &#123;</span><br><span class="line">    NSString *str = [[NSString alloc] initWithFormat:@&quot;I am this: %@&quot;, self];</span><br><span class="line">    // return str; 不能这么写，因为alloc使内存引用计数加一</span><br><span class="line">    // [str release] 也不能直接release，因为返回的要用</span><br><span class="line">    return [str autorelease]; // 这样就会再下一次事件循环中引用计数减一，对外部没有影响</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果按“引用树”回溯，那么最终会发现一个根对象，在mac os中就是NSApplication对象；在iOS中则试UIApplication。两者都是应用程序启动时创的单例。</p>
+<h3 id="30、以ARC简化引用计数"><a href="#30、以ARC简化引用计数" class="headerlink" title="30、以ARC简化引用计数"></a>30、以ARC简化引用计数</h3><p>若方法名以下列词语开头，则其返回的对象归调用者所有：</p>
+<ul>
+<li>alloc</li>
+<li>new</li>
+<li>copy</li>
+<li>mutableCopy<br>归调用者所有的意思时：调用上述四种方法的那段代码负责释放方法所返回的对象。</li>
+</ul>
+<p>若方法名不以上述四个词语开头，则表示其返回的对象并不归调用者所有。在这种情况下，返回的对象会自动释放，所以其值再跨越方法调用边界后依然有效。要想使对象多存活一段时间，必须令调用者保留它才行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">+ (EOCPerson*)newPerson &#123;</span><br><span class="line">    EOCPerson *person = [[EOCPerson alloc] init]; </span><br><span class="line">    return person;</span><br><span class="line">    /**</span><br><span class="line">    * The method name begins with &#x27;new&#x27;, and since &#x27;person&#x27; * already has an unbalanced +1 retain count from the</span><br><span class="line">    * &#x27;alloc&#x27;, no retains, releases, or autoreleases are</span><br><span class="line">    * required when returning.</span><br><span class="line">    */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (EOCPerson*)somePerson &#123;</span><br><span class="line">    EOCPerson *person = [[EOCPerson alloc] init]; </span><br><span class="line">    return person;</span><br><span class="line">    /**</span><br><span class="line">    * The method name does not begin with one of the &quot;owning&quot;</span><br><span class="line">    * prefixes, therefore ARC will add an autorelease when</span><br><span class="line">    * returning &#x27;person&#x27;.</span><br><span class="line">    * The equivalent manual reference counting statement is:</span><br><span class="line">    * return [person autorelease];</span><br><span class="line">    */</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)doSomething &#123;</span><br><span class="line">    EOCPerson *personOne = [EOCPerson newPerson]; // ...</span><br><span class="line">    EOCPerson *personTwo = [EOCPerson somePerson]; // ...</span><br><span class="line">    /**</span><br><span class="line">    * At this point, &#x27;personOne&#x27; and &#x27;personTwo&#x27; go out of </span><br><span class="line">    * scope, therefore ARC needs to clean them up as required. </span><br><span class="line">    * - &#x27;personOne&#x27; was returned as owned by this block of</span><br><span class="line">    * code, so it needs to be released.</span><br><span class="line">    * - &#x27;personTwo&#x27; was returned not owned by this block of</span><br><span class="line">    * code, so it does not need to be released.</span><br><span class="line">    * The equivalent manual reference counting cleanup code * is:</span><br><span class="line">    * [personOne release];</span><br><span class="line">    */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ARC可以在运行期间检测到多余操作，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EOCPerson *tmp = [EOCPerson personWithName:@&quot;Bob Smith&quot;]; 、/_myPerson = [tmp retain]; // add by arc</span><br></pre></td></tr></table></figure>
+<p>上面代码，arc中会加上retain，所以内部autorelease和外部retain都可以去掉，改为以下调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Within EOCPerson class</span><br><span class="line">+ (EOCPerson*)personWithName:(NSString*)name &#123; </span><br><span class="line">    EOCPerson *person = [[EOCPerson alloc] init]; person.name = name;</span><br><span class="line">    objc_autoreleaseReturnValue(person);</span><br><span class="line">&#125;</span><br><span class="line">// Code using EOCPerson class</span><br><span class="line">EOCPerson *tmp = [EOCPerson personWithName:@&quot;Matt Galloway&quot;];_myPerson = objc_retainAutoreleasedReturnValue(tmp);</span><br></pre></td></tr></table></figure>
+
+<h4 id="ARC如何清理实例变量"><a href="#ARC如何清理实例变量" class="headerlink" title="ARC如何清理实例变量"></a>ARC如何清理实例变量</h4><p>.cxx_destruc</p>
+<h3 id="31、在dealloc方法中只释放引用并接触监听"><a href="#31、在dealloc方法中只释放引用并接触监听" class="headerlink" title="31、在dealloc方法中只释放引用并接触监听"></a>31、在dealloc方法中只释放引用并接触监听</h3><ul>
+<li>在dealloc方法里，应该做的事情就是释放指向其他对象的引用，并取消原来的订阅“键值观测”（KVO）或者NSNotificationCenter等通知，不要做其他的事情。</li>
+<li>如果对象持有文件描述符等系统资源，那么应该专门编写一个方法来释放此种资源。这样的类要和其他使用者约定：用完资源后必须调用<code>close</code>方法</li>
+<li>执行异步任务的方法不应该在dealloc里调用：只能在正常状态下执行的那些方法也不应该在dealloc里调用，因为此时对象已处于正在回收的状态了</li>
+</ul>
+<h3 id="32、编写“异常安全代码”时留意内存管理问题"><a href="#32、编写“异常安全代码”时留意内存管理问题" class="headerlink" title="32、编写“异常安全代码”时留意内存管理问题"></a>32、编写“异常安全代码”时留意内存管理问题</h3><ul>
+<li>捕获异常时，一定要注意将try块内所创立的对象清理干净</li>
+<li>在默认情况下，ARC不生成安全处理异常的清理代码。开启编译器标志后，可以生成这种代码，不过会导致应用程序变大，而且会降低运行效率</li>
+</ul>
+<h3 id="33、以弱引用避免保留链"><a href="#33、以弱引用避免保留链" class="headerlink" title="33、以弱引用避免保留链"></a>33、以弱引用避免保留链</h3><ul>
+<li>将某些引用设为<code>weak</code>，可避免出现保留环</li>
+<li><code>weak</code>引用可以自动清理，也可以不自动清空。自动情况时随着ARC而引入的新特性，由运行期系统来实现。在具备自动情况功能的弱引用是哪个，可以随意读取其数据，因为这种引用不会指向已经回收过的对象</li>
+</ul>
+<h3 id="34、以“自动释放池块”降低内存峰值"><a href="#34、以“自动释放池块”降低内存峰值" class="headerlink" title="34、以“自动释放池块”降低内存峰值"></a>34、以“自动释放池块”降低内存峰值</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char *argv[]) &#123; </span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        return UIApplicationMain(argc, argv, nil, @&quot;EOCAppDelegate&quot;);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从技术角度，不是非得有个“自动释放块”才行。因为块的末尾恰好时应用程序的终止处，而此时操作系统会把程序所占用的全部内存逗释放掉。虽说如此，但是如果不写这个块的话，那么由于UIApplication函数所自动释放的那些对象，就没有自动释放池可以容纳了，于是系统会发出警告信息来表明这一情况。所以说，这个池可以理解成最外围捕捉全部自动释放对象所有地</p>
+<ul>
+<li>自动释放池排布在栈中，对象收到autorelease消息后，系统将其放入最顶端的池里</li>
+<li>合理运用自动释放池，可以降低应用程序的内存峰值</li>
+<li><code>autoreleasepool</code>这种新式写法能创建更为轻便的自动释放池</li>
+</ul>
+<h3 id="35、用僵尸对象调试内存问题"><a href="#35、用僵尸对象调试内存问题" class="headerlink" title="35、用僵尸对象调试内存问题"></a>35、用<code>僵尸对象</code>调试内存问题</h3><p><code>僵尸对象</code>是这个非常方便的功能。启用这项调试功能之后，运行期系统会把所有已经回收的实例转化成特殊的“僵尸对象”，而不会真正回收它们。这种对象所在的核心内存无法重用，因此不可能遭到覆写。僵尸对象收到消息后，会抛出异常，其中准确说明了发送过来的消息，并描述了回收之前的那个对象。僵尸对象时调试内存管理问题的最佳方式。</p>
+<ul>
+<li>系统会修改对象的<code>isa</code>的指针，令其指向特殊的僵尸类，从而使该对象变为僵尸对象。僵尸类能够响应所有的选择器，响应的方式为：打印一条包含该消息内存及其接收者的消息，然后终止应用程序</li>
+</ul>
+<h3 id="36、不要使用retainCount"><a href="#36、不要使用retainCount" class="headerlink" title="36、不要使用retainCount"></a>36、不要使用retainCount</h3><p><code>retainCount</code>此方法之所以无用，其首要原因在于：它返回的保留计数只是某个给定时间点上的值。该方法并未考虑到系统会稍候把自动释放池情况，因而不会将后续的释放操作从返回值里减去，这样的话，此值就未必能真实的反应实际的引用计数。</p>
+<p>其次<code>retainCount</code>可能永远不返回0，因为有时系统会优化对象的释放行为，在引用计数还是1的时候就把它回收了。只有在系统不打算这么优化时，计数值才会递减至0.因此，引用计数永远都不会完全为零。</p>
+<h4 id="标签指针（tagged-pointer）"><a href="#标签指针（tagged-pointer）" class="headerlink" title="标签指针（tagged pointer）"></a>标签指针（tagged pointer）</h4><p>在 2013 年 9 月，苹果推出了 iPhone5s ，与此同时，iPhone5s 配备了首个采用 64 位架构的 A7 双核处理器，为了节省内存和提高执行效率，苹果提出了Tagged Pointer的概念。对于 64 位程序，引入 Tagged Pointer 后，相关逻辑能减少一半的内存占用，以及 3 倍的访问速度提升，100 倍的创建、销毁速度提升。</p>
+<p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_targetPointer_length1.png" alt="image"></p>
+<p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_targetPointer_length2.png" alt="image"></p>
+<h2 id="第六章-块与大中枢派发"><a href="#第六章-块与大中枢派发" class="headerlink" title="第六章 块与大中枢派发"></a>第六章 块与大中枢派发</h2><h3 id="37、理解“块”这一概念"><a href="#37、理解“块”这一概念" class="headerlink" title="37、理解“块”这一概念"></a>37、理解“块”这一概念</h3><p><img src="https://raw.githubusercontent.com/heng0808/heng0808.github.io/master/images/gitpage_block_struct.png" alt="image"></p>
+<h4 id="全局block、栈block、堆block"><a href="#全局block、栈block、堆block" class="headerlink" title="全局block、栈block、堆block"></a>全局block、栈block、堆block</h4><h3 id="为常用的块类型创建typedef"><a href="#为常用的块类型创建typedef" class="headerlink" title="为常用的块类型创建typedef"></a>为常用的块类型创建typedef</h3><p>__NSCFConstantString</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/20/iOS/iOS%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" rel="prev" title="iOS知识点总结">
+      <i class="fa fa-chevron-left"></i> iOS知识点总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/20/iOS/Heap&Stack&Block/" rel="next" title="Heap&Stack&Block">
+      Heap&Stack&Block <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E7%86%9F%E6%82%89Objective-C"><span class="nav-number">1.</span> <span class="nav-text">第一章 熟悉Objective-C</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%BA%86%E8%A7%A3Objective-C%E7%9A%84%E8%B5%B7%E6%BA%90"><span class="nav-number">1.1.</span> <span class="nav-text">1、了解Objective-C的起源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%9C%A8%E7%B1%BB%E6%96%87%E4%BB%B6%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%E5%B0%BD%E9%87%8F%E5%B0%91%E5%BC%95%E7%94%A8%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">2、在类文件头文件中尽量少引用其他文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%A4%9A%E7%94%A8%E5%AD%97%E9%9D%A2%E9%87%8F%E6%96%B9%E6%B3%95%EF%BC%8C%E5%B0%91%E7%94%A8%E4%B8%8E%E4%B9%8B%E7%AD%89%E4%BB%B7%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">3、多用字面量方法，少用与之等价的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E5%A4%9A%E7%94%A8%E7%B1%BB%E5%B8%B8%E9%87%8F%EF%BC%8C%E5%B0%91%E7%94%A8-define"><span class="nav-number">1.4.</span> <span class="nav-text">4、多用类常量，少用#define</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5%E3%80%81%E7%94%A8%E6%9E%9A%E4%B8%BE%E8%A1%A8%E7%A4%BA%E9%80%89%E9%A1%B9%E3%80%81%E7%8A%B6%E6%80%81%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-number">1.5.</span> <span class="nav-text">5、用枚举表示选项、状态、状态码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%AF%B9%E8%B1%A1%E3%80%81%E6%B6%88%E6%81%AF%E3%80%81%E8%BF%90%E8%A1%8C%E6%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">第二章 对象、消息、运行期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6%E3%80%81%E7%90%86%E8%A7%A3%E5%B1%9E%E6%80%A7%E8%BF%99%E4%B8%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.1.</span> <span class="nav-text">6、理解属性这一概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7%E3%80%81%E5%9C%A8%E5%AF%B9%E8%B1%A1%E5%86%85%E9%83%A8%E5%B0%BD%E9%87%8F%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">7、在对象内部尽量直接使用实例变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8%E3%80%81%E7%90%86%E8%A7%A3%E5%AF%B9%E8%B1%A1%E2%80%9C%E7%AD%89%E5%90%8C%E6%80%A7%E2%80%9D%E8%BF%99%E4%B8%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.3.</span> <span class="nav-text">8、理解对象“等同性”这一概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9%E3%80%81%E4%BB%A5%E2%80%9C%E7%B1%BB%E7%B0%87%E6%A8%A1%E5%BC%8F%E2%80%9D%E9%9A%90%E8%97%8F%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">2.4.</span> <span class="nav-text">9、以“类簇模式”隐藏实现细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10%E3%80%81%E5%9C%A8%E6%97%A2%E6%9C%89%E5%AF%B9%E8%B1%A1%E4%B8%AD%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7"><span class="nav-number">2.5.</span> <span class="nav-text">10、在既有对象中关联对象存储自定义属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11%E3%80%81%E7%90%86%E8%A7%A3objc-msgSend%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">2.6.</span> <span class="nav-text">11、理解objc_msgSend的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12%E3%80%81%E7%90%86%E8%A7%A3%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">2.7.</span> <span class="nav-text">12、理解消息转发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%A7%A3%E2%80%9C%E7%B1%BB%E5%AF%B9%E8%B1%A1%E2%80%9D%E7%9A%84%E7%94%A8%E6%84%8F"><span class="nav-number">2.8.</span> <span class="nav-text">理解“类对象”的用意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13%E3%80%81%E7%94%A8%E6%96%B9%E6%B3%95%E8%B0%83%E9%85%8D%E6%8A%80%E6%9C%AF%E8%B0%83%E8%AF%95%E9%BB%91%E7%9B%92%E6%96%B9%E6%B3%95"><span class="nav-number">2.9.</span> <span class="nav-text">13、用方法调配技术调试黑盒方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14%E3%80%81%E7%90%86%E8%A7%A3%E7%B1%BB%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%94%A8%E6%84%8F"><span class="nav-number">2.10.</span> <span class="nav-text">14、理解类对象的用意</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%8E%A5%E5%8F%A3%E4%B8%8EApi%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">第三章 接口与Api设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#15%E3%80%81%E7%94%A8%E5%89%8D%E7%BC%80%E9%81%BF%E5%85%8D%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E5%86%B2%E7%AA%81"><span class="nav-number">3.1.</span> <span class="nav-text">15、用前缀避免命名空间冲突</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16%E3%80%81%E6%8F%90%E4%BE%9B%E5%85%A8%E8%83%BD%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">16、提供全能初始化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17%E3%80%81%E5%AE%9E%E7%8E%B0description%E6%96%B9%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">17、实现description方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18%E3%80%81%E5%B0%BD%E9%87%8F%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.4.</span> <span class="nav-text">18、尽量使用不可变对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19%E3%80%81%E4%BD%BF%E7%94%A8%E6%B8%85%E6%99%B0%E8%80%8C%E5%8D%8F%E8%B0%83%E7%9A%84%E5%91%BD%E5%90%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">3.5.</span> <span class="nav-text">19、使用清晰而协调的命名方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20%E3%80%81%E4%B8%BA%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95%E5%90%8D%E5%8A%A0%E5%89%8D%E7%BC%80"><span class="nav-number">3.6.</span> <span class="nav-text">20、为私有方法名加前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21%E3%80%81%E7%90%86%E8%A7%A3Objective-C%E9%94%99%E8%AF%AF%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.7.</span> <span class="nav-text">21、理解Objective-C错误模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22%E3%80%81%E7%90%86%E8%A7%A3NSCopying%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.8.</span> <span class="nav-text">22、理解NSCopying协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E5%8D%8F%E8%AE%AE%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="nav-number">4.</span> <span class="nav-text">第四章 协议与分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#23%E3%80%81%E9%80%9A%E8%BF%87%E5%A7%94%E6%89%98%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%BA%90%E5%8D%8F%E8%AE%AE%E8%BF%9B%E8%A1%8C%E5%AF%B9%E8%B1%A1%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="nav-number">4.1.</span> <span class="nav-text">23、通过委托与数据源协议进行对象间通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24%E3%80%81%E5%B0%86%E7%B1%BB%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E5%88%86%E6%95%A3%E5%88%B0%E4%BE%BF%E4%BA%8E%E7%AE%A1%E7%90%86%E7%9A%84%E5%90%84%E4%B8%AA%E5%88%86%E7%B1%BB%E4%B8%AD"><span class="nav-number">4.2.</span> <span class="nav-text">24、将类的实现代码分散到便于管理的各个分类中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25%E3%80%81%E6%80%BB%E6%98%AF%E4%B8%BA%E7%AC%AC%E4%B8%89%E6%96%B9%E5%88%86%E7%B1%BB%E7%9A%84%E5%90%8D%E7%A7%B0%E5%8A%A0%E5%89%8D%E7%BC%80"><span class="nav-number">4.3.</span> <span class="nav-text">25、总是为第三方分类的名称加前缀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26%E3%80%81%E5%8B%BF%E5%9C%A8%E5%88%86%E7%B1%BB%E4%B8%AD%E5%A3%B0%E6%98%8E%E5%B1%9E%E6%80%A7"><span class="nav-number">4.4.</span> <span class="nav-text">26、勿在分类中声明属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27%E3%80%81%E4%BD%BF%E7%94%A8class-continuation%E9%9A%90%E8%97%8F%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">4.5.</span> <span class="nav-text">27、使用class-continuation隐藏实现细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28%E3%80%81%E9%80%9A%E8%BF%87%E5%8D%8F%E8%AE%AE%E6%8F%90%E4%BE%9B%E5%8C%BF%E5%90%8D%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.6.</span> <span class="nav-text">28、通过协议提供匿名对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#29%E3%80%81%E7%90%86%E8%A7%A3%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-number">5.1.</span> <span class="nav-text">29、理解引用计数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E5%AD%98%E5%8F%96%E6%96%B9%E6%B3%95%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">5.1.1.</span> <span class="nav-text">属性存取方法的内存管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0"><span class="nav-number">5.1.2.</span> <span class="nav-text">自动释放池</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30%E3%80%81%E4%BB%A5ARC%E7%AE%80%E5%8C%96%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0"><span class="nav-number">5.2.</span> <span class="nav-text">30、以ARC简化引用计数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ARC%E5%A6%82%E4%BD%95%E6%B8%85%E7%90%86%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F"><span class="nav-number">5.2.1.</span> <span class="nav-text">ARC如何清理实例变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31%E3%80%81%E5%9C%A8dealloc%E6%96%B9%E6%B3%95%E4%B8%AD%E5%8F%AA%E9%87%8A%E6%94%BE%E5%BC%95%E7%94%A8%E5%B9%B6%E6%8E%A5%E8%A7%A6%E7%9B%91%E5%90%AC"><span class="nav-number">5.3.</span> <span class="nav-text">31、在dealloc方法中只释放引用并接触监听</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32%E3%80%81%E7%BC%96%E5%86%99%E2%80%9C%E5%BC%82%E5%B8%B8%E5%AE%89%E5%85%A8%E4%BB%A3%E7%A0%81%E2%80%9D%E6%97%B6%E7%95%99%E6%84%8F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E9%97%AE%E9%A2%98"><span class="nav-number">5.4.</span> <span class="nav-text">32、编写“异常安全代码”时留意内存管理问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33%E3%80%81%E4%BB%A5%E5%BC%B1%E5%BC%95%E7%94%A8%E9%81%BF%E5%85%8D%E4%BF%9D%E7%95%99%E9%93%BE"><span class="nav-number">5.5.</span> <span class="nav-text">33、以弱引用避免保留链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34%E3%80%81%E4%BB%A5%E2%80%9C%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%9D%97%E2%80%9D%E9%99%8D%E4%BD%8E%E5%86%85%E5%AD%98%E5%B3%B0%E5%80%BC"><span class="nav-number">5.6.</span> <span class="nav-text">34、以“自动释放池块”降低内存峰值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35%E3%80%81%E7%94%A8%E5%83%B5%E5%B0%B8%E5%AF%B9%E8%B1%A1%E8%B0%83%E8%AF%95%E5%86%85%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">5.7.</span> <span class="nav-text">35、用僵尸对象调试内存问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36%E3%80%81%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8retainCount"><span class="nav-number">5.8.</span> <span class="nav-text">36、不要使用retainCount</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E6%8C%87%E9%92%88%EF%BC%88tagged-pointer%EF%BC%89"><span class="nav-number">5.8.1.</span> <span class="nav-text">标签指针（tagged pointer）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%9D%97%E4%B8%8E%E5%A4%A7%E4%B8%AD%E6%9E%A2%E6%B4%BE%E5%8F%91"><span class="nav-number">6.</span> <span class="nav-text">第六章 块与大中枢派发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#37%E3%80%81%E7%90%86%E8%A7%A3%E2%80%9C%E5%9D%97%E2%80%9D%E8%BF%99%E4%B8%80%E6%A6%82%E5%BF%B5"><span class="nav-number">6.1.</span> <span class="nav-text">37、理解“块”这一概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80block%E3%80%81%E6%A0%88block%E3%80%81%E5%A0%86block"><span class="nav-number">6.1.1.</span> <span class="nav-text">全局block、栈block、堆block</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E5%B8%B8%E7%94%A8%E7%9A%84%E5%9D%97%E7%B1%BB%E5%9E%8B%E5%88%9B%E5%BB%BAtypedef"><span class="nav-number">6.2.</span> <span class="nav-text">为常用的块类型创建typedef</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
